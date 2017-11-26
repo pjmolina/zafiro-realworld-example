@@ -1,8 +1,10 @@
 import * as Pino from "pino";
+import { injectable } from "inversify";
 import * as interfaces from "../interfaces";
 
 const pino = Pino();
 
+@injectable()
 export class Logger implements interfaces.Logger {
     private readonly _pino: typeof pino;
     public constructor() {

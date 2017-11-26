@@ -7,5 +7,5 @@ export const TYPE = {
 export const MIDDLEWARE = {
     AdminOnly: Symbol.for("AdminOnly"),
     Authorize: Symbol.for("Authorize"),
-    Logger: Symbol.for("Logger")
+    Logger: Symbol.for("LoggerMiddleware")
 };
