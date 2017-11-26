@@ -22,7 +22,7 @@ export class AuthorizeMiddleware extends BaseMiddleware {
     }
 }
 
-export class AdminOnlyMiddleware extends BaseMiddleware {
+export class RoleAdminMiddleware extends BaseMiddleware {
     @inject(TYPE.Logger) private readonly _logger: Logger;
     public handler(
         req: express.Request,

@@ -6,7 +6,7 @@ import { TYPE, MIDDLEWARE } from "../constants/types";
 import * as interfaces from "../interfaces";
 import { AccountRepository } from "../repositories/account_repository";
 import { TweetRepository } from "../repositories/tweet_repository";
-import { AdminOnlyMiddleware, AuthorizeMiddleware } from "../middleware/authorize_middleware";
+import { RoleAdminMiddleware, AuthorizeMiddleware } from "../middleware/authorize_middleware";
 import { LoggerMiddleware } from "../middleware/logger_middleware";
 import { Logger } from "../utils/logger";
 
@@ -31,8 +31,8 @@ export const bindings = new ContainerModule((bind) => {
 
     // Create bindings for middleware
 
-    bind<BaseMiddleware>(MIDDLEWARE.AdminOnly)
-        .to(AdminOnlyMiddleware)
+    bind<BaseMiddleware>(MIDDLEWARE.RoleAdmin)
+        .to(RoleAdminMiddleware)
         .inRequestScope();
 
     bind<BaseMiddleware>(MIDDLEWARE.Authorize)

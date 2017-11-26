@@ -6,17 +6,7 @@ import { TweetRepository } from "../interfaces";
 @controller("/tweet", MIDDLEWARE.Logger)
 export class TweetController extends BaseHttpController {
 
-    private readonly _repository: TweetRepository;
-
-    public constructor(
-        @inject(TYPE.TweetRepository) repository: TweetRepository
-    ) {
-        super();
-        if (repository === null || repository === undefined) {
-            throw new Error();
-        }
-        this._repository = repository;
-    }
+    @inject(TYPE.TweetRepository) private readonly _repository: TweetRepository;
 
     @httpGet("/")
     private async get() {
