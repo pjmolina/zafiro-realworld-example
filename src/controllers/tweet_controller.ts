@@ -3,7 +3,7 @@ import { controller, httpGet, BaseHttpController } from "inversify-express-utils
 import { MIDDLEWARE, TYPE } from "../constants/types";
 import { Repository, Tweet} from "../interfaces";
 
-@controller("/tweet")
+@controller("/tweet", MIDDLEWARE.Logger)
 export class TweetController extends BaseHttpController {
 
     private readonly _repository: Repository<Tweet>;

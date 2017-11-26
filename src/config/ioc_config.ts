@@ -6,7 +6,9 @@ import { TYPE, MIDDLEWARE } from "../constants/types";
 import * as interfaces from "../interfaces";
 import { AccountRepository } from "../repositories/account_repository";
 import { TweetRepository } from "../repositories/tweet_repository";
-import { AdminOnly, Authorize } from "../middleware/authorize_middleware";
+import { AdminOnlyMiddleware, AuthorizeMiddleware } from "../middleware/authorize_middleware";
+import { LoggerMiddleware } from "../middleware/logger_middleware";
+import { Logger } from "../utils/logger";
 
 export const bindings = new ContainerModule((bind) => {
 
@@ -27,14 +29,24 @@ export const bindings = new ContainerModule((bind) => {
         .to(TweetRepository)
         .inRequestScope();
 
-    // Create bindings for middlerare
+    // Create bindings for middleware
 
     bind<BaseMiddleware>(MIDDLEWARE.AdminOnly)
-        .to(AdminOnly)
+        .to(AdminOnlyMiddleware)
         .inRequestScope();
 
     bind<BaseMiddleware>(MIDDLEWARE.Authorize)
-        .to(Authorize)
+        .to(AuthorizeMiddleware)
+        .inRequestScope();
+
+    bind<BaseMiddleware>(MIDDLEWARE.Logger)
+        .to(LoggerMiddleware)
+        .inRequestScope();
+
+    // Create other bindings
+
+    bind<interfaces.Logger>(TYPE.Logger)
+        .to(Logger)
         .inRequestScope();
 
 });

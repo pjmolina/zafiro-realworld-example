@@ -27,3 +27,10 @@ export interface TweetRepository extends Repository<Tweet> {
     getUserTweetFeed(email: string): Promise<Tweet[]>;
     getUserOwnTweets(email: string): Promise<Tweet[]>;
 }
+
+export interface Logger {
+    info(msg: string, ...args: any[]): void;
+    error(msg: string, ...args: any[]): void;
+    debug(msg: string, ...args: any[]): void;
+    warn(msg: string, ...args: any[]): void;
+}
