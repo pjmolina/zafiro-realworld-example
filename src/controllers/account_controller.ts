@@ -1,15 +1,15 @@
-import * as express from "express";
 import { controller, httpGet, BaseHttpController } from "inversify-express-utils";
 import { accountRepository } from "../constants/decorators";
-import { Repository, Account} from "../interfaces";
+import { AccountRepository } from "../interfaces";
+import { MIDDLEWARE } from "../constants/types";
 
 @controller("/account")
 export class AccountController extends BaseHttpController {
 
-    private readonly _repository: Repository<Account>;
+    private readonly _repository: AccountRepository;
 
     public constructor(
-        @accountRepository repository: Repository<Account>
+        @accountRepository repository: AccountRepository
     ) {
         super();
         if (repository === null || repository === undefined) {
@@ -20,6 +20,11 @@ export class AccountController extends BaseHttpController {
 
     @httpGet("/")
     private async get() {
+        return await this._repository.read();
+    }
+
+    @httpGet("/suspend", MIDDLEWARE.AdminOnly)
+    private async suspend() {
         return await this._repository.read();
     }
 

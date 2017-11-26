@@ -1,35 +1,75 @@
 import * as express from "express";
 import { interfaces } from "inversify-express-utils";
 import { injectable } from "inversify";
-import { accountRepository } from "../constants/decorators";
-import { Repository, Account} from "../interfaces";
+import { accountRepository, tweetRepository } from "../constants/decorators";
+import { AccountRepository, TweetRepository } from "../interfaces";
 
 class Principal implements interfaces.Principal {
-    private readonly _repository: Repository<Account>;
+
+    private readonly _accountRepository: AccountRepository;
+    private readonly _tweetRepository: TweetRepository;
     public details: any;
+
     public constructor(
         details: any,
-        repository: Repository<Account>
+        accountRepository: AccountRepository,
+        tweetRepository: TweetRepository
     ) {
         this.details = details;
-        this._repository = repository;
+        this._accountRepository = accountRepository;
+        this._tweetRepository = tweetRepository;
     }
-    public isAuthenticated(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    // We check it the user is authenticated
+    public isAuthenticated() {
+        if (this.details !== null && this.details !== undefined) {
+            return Promise.resolve(true);
+        } else {
+            return Promise.resolve(false);
+        }
     }
-    public isResourceOwner(resourceId: any): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    // We check if the current user is the owner
+    // of a given resource, in our application
+    // there is only one kind of resource: Tweets
+    public async isResourceOwner(resourceId: any) {
+        if (this.isAuthenticated()) {
+            const tweets = await this._tweetRepository.read(
+                { id: resourceId }
+            );
+            const userId = this.details.id;
+            const isResourceOwner = tweets.filter(t => t.userId === userId).length === 1;
+            if (isResourceOwner) {
+                return true;
+            }
+        }
+        return false;
     }
-    public isInRole(role: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    // If user is authenticated we check if has a given role
+    public async isInRole(role: string): Promise<boolean> {
+        if (this.isAuthenticated()) {
+            const roles = await this._accountRepository.getRoles(
+                this.details.email
+            );
+            const hasRole = roles.filter(r => r.name === role).length === 1;
+            if (hasRole) {
+                return true;
+            }
+        }
+        return false;
     }
+
 }
 
 @injectable()
 export class AuthProvider implements interfaces.AuthProvider {
 
-    @accountRepository private readonly _repository: Repository<Account>;
+    @accountRepository private readonly _accountRepository: AccountRepository;
+    @tweetRepository private readonly _tweetRepository: TweetRepository;
 
+    // Get the current Principal, if the user is
+    // authenticated the principal will contain its details
     public async getUser(
         req: express.Request,
         res: express.Response,
@@ -37,13 +77,14 @@ export class AuthProvider implements interfaces.AuthProvider {
     ): Promise<interfaces.Principal> {
         const token = req.headers["x-auth-token"]
         const email = `TODO USE ${token} to get email`;
-        const users = await this._repository.read(
+        const users = await this._accountRepository.read(
             { email: email }
         );
-        const user = users[0];
+        const userOrUndefined = users[0];
         const principal = new Principal(
-            user,
-            this._repository
+            userOrUndefined,
+            this._accountRepository,
+            this._tweetRepository
         );
         return principal;
     }

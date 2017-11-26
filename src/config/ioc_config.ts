@@ -1,26 +1,40 @@
 import { ContainerModule } from "inversify";
+import { BaseMiddleware } from "inversify-express-utils";
 import * as path from "path";
-import { Repository, Account, Tweet } from "../interfaces";
 import { loadControllers } from "../utils/ioc_utils";
-import { TYPE } from "../constants/types";
+import { TYPE, MIDDLEWARE } from "../constants/types";
+import * as interfaces from "../interfaces";
 import { AccountRepository } from "../repositories/account_repository";
 import { TweetRepository } from "../repositories/tweet_repository";
+import { AdminOnly, Authorize } from "../middleware/authorize_middleware";
 
 export const bindings = new ContainerModule((bind) => {
 
     // Create bindings for controllers
+
     loadControllers(
         "controllers",
         (dirOrFile: string[]) => path.join(__dirname, "..", ...dirOrFile)
     );
 
     // Create bindings for repositories
-    bind<Repository<Account>>(TYPE.AccountRepository)
+
+    bind<interfaces.AccountRepository>(TYPE.AccountRepository)
         .to(AccountRepository)
         .inRequestScope();
 
-    bind<Repository<Account>>(TYPE.TweetRepository)
+    bind<interfaces.Repository<interfaces.Tweet>>(TYPE.TweetRepository)
         .to(TweetRepository)
+        .inRequestScope();
+
+    // Create bindings for middlerare
+
+    bind<BaseMiddleware>(MIDDLEWARE.AdminOnly)
+        .to(AdminOnly)
+        .inRequestScope();
+
+    bind<BaseMiddleware>(MIDDLEWARE.Authorize)
+        .to(Authorize)
         .inRequestScope();
 
 });

@@ -1,6 +1,6 @@
-import * as express from "express";
 import { controller, httpGet, BaseHttpController } from "inversify-express-utils";
 import { tweetRepository } from "../constants/decorators";
+import { MIDDLEWARE } from "../constants/types";
 import { Repository, Tweet} from "../interfaces";
 
 @controller("/tweet")
@@ -20,6 +20,11 @@ export class TweetController extends BaseHttpController {
 
     @httpGet("/")
     private async get() {
+        return await this._repository.read();
+    }
+
+    @httpGet("/", MIDDLEWARE.Authorize)
+    private async post() {
         return await this._repository.read();
     }
 

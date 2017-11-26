@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Container } from "inversify";
-import { interfaces, InversifyExpressServer } from 'inversify-express-utils';
+import { InversifyExpressServer } from 'inversify-express-utils';
 import chalk from "chalk";
 import { bindings } from "./config/ioc_config";
 import { expressConfig } from "./config/express_config";
