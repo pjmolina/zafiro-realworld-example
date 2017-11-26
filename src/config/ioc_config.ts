@@ -25,7 +25,7 @@ export const bindings = new ContainerModule((bind) => {
         .to(AccountRepository)
         .inRequestScope();
 
-    bind<interfaces.Repository<interfaces.Tweet>>(TYPE.TweetRepository)
+    bind<interfaces.TweetRepository>(TYPE.TweetRepository)
         .to(TweetRepository)
         .inRequestScope();
 
