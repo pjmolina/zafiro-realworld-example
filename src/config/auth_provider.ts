@@ -1,7 +1,7 @@
 import * as express from "express";
 import { interfaces } from "inversify-express-utils";
-import { injectable } from "inversify";
-import { accountRepository, tweetRepository } from "../constants/decorators";
+import { injectable, inject } from "inversify";
+import { TYPE } from "../constants/types";
 import { AccountRepository, TweetRepository } from "../interfaces";
 
 class Principal implements interfaces.Principal {
@@ -65,8 +65,8 @@ class Principal implements interfaces.Principal {
 @injectable()
 export class AuthProvider implements interfaces.AuthProvider {
 
-    @accountRepository private readonly _accountRepository: AccountRepository;
-    @tweetRepository private readonly _tweetRepository: TweetRepository;
+    @inject(TYPE.AccountRepository) private readonly _accountRepository: AccountRepository;
+    @inject(TYPE.TweetRepository) private readonly _tweetRepository: TweetRepository;
 
     // Get the current Principal, if the user is
     // authenticated the principal will contain its details

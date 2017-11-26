@@ -1,6 +1,6 @@
+import { inject } from "inversify";
 import { controller, httpGet, BaseHttpController } from "inversify-express-utils";
-import { tweetRepository } from "../constants/decorators";
-import { MIDDLEWARE } from "../constants/types";
+import { MIDDLEWARE, TYPE } from "../constants/types";
 import { Repository, Tweet} from "../interfaces";
 
 @controller("/tweet")
@@ -9,7 +9,7 @@ export class TweetController extends BaseHttpController {
     private readonly _repository: Repository<Tweet>;
 
     public constructor(
-        @tweetRepository repository: Repository<Tweet>
+        @inject(TYPE.TweetRepository) repository: Repository<Tweet>
     ) {
         super();
         if (repository === null || repository === undefined) {

@@ -1,7 +1,7 @@
+import { inject } from "inversify";
 import { controller, httpGet, BaseHttpController } from "inversify-express-utils";
-import { accountRepository } from "../constants/decorators";
+import { TYPE, MIDDLEWARE } from "../constants/types";
 import { AccountRepository } from "../interfaces";
-import { MIDDLEWARE } from "../constants/types";
 
 @controller("/account")
 export class AccountController extends BaseHttpController {
@@ -9,7 +9,7 @@ export class AccountController extends BaseHttpController {
     private readonly _repository: AccountRepository;
 
     public constructor(
-        @accountRepository repository: AccountRepository
+        @inject(TYPE.AccountRepository) repository: AccountRepository
     ) {
         super();
         if (repository === null || repository === undefined) {
