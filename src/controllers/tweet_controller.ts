@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { controller, httpGet, BaseHttpController } from "inversify-express-utils";
+import { controller, httpGet, httpPost, BaseHttpController } from "inversify-express-utils";
 import { MIDDLEWARE, TYPE } from "../constants/types";
 import { TweetRepository } from "../interfaces";
 
@@ -23,7 +23,7 @@ export class TweetController extends BaseHttpController {
         return await this._repository.read();
     }
 
-    @httpGet("/", MIDDLEWARE.Authorize)
+    @httpPost("/", MIDDLEWARE.Authorize)
     private async post() {
         return await this._repository.read();
     }

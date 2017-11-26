@@ -2,7 +2,7 @@ import * as express from "express";
 import { interfaces } from "inversify-express-utils";
 import { injectable, inject } from "inversify";
 import { TYPE } from "../constants/types";
-import { AccountRepository, TweetRepository } from "../interfaces";
+import { AccountRepository, TweetRepository, Logger } from "../interfaces";
 
 class Principal implements interfaces.Principal {
 
@@ -67,6 +67,7 @@ export class AuthProvider implements interfaces.AuthProvider {
 
     @inject(TYPE.AccountRepository) private readonly _accountRepository: AccountRepository;
     @inject(TYPE.TweetRepository) private readonly _tweetRepository: TweetRepository;
+    @inject(TYPE.Logger) private readonly _logger: Logger;
 
     // Get the current Principal, if the user is
     // authenticated the principal will contain its details
@@ -75,18 +76,28 @@ export class AuthProvider implements interfaces.AuthProvider {
         res: express.Response,
         next: express.NextFunction
     ): Promise<interfaces.Principal> {
-        const token = req.headers["x-auth-token"]
-        const email = `TODO USE ${token} to get email`;
-        const users = await this._accountRepository.read(
-            { email: email }
-        );
-        const userOrUndefined = users[0];
-        const principal = new Principal(
-            userOrUndefined,
-            this._accountRepository,
-            this._tweetRepository
-        );
-        return principal;
+        try {
+            const token = req.headers["x-auth-token"]
+            const email = `USE ${token} to get email`; // TODO 
+            const users = await this._accountRepository.read(
+                { email: email }
+            );
+            const userOrUndefined = users[0];
+            this._logger.info("AuthProvider =>", userOrUndefined);
+            const principal = new Principal(
+                userOrUndefined,
+                this._accountRepository,
+                this._tweetRepository
+            );
+            return principal;
+        } catch(e) {
+            this._logger.error(e.message, e);
+            return new Principal(
+                null,
+                this._accountRepository,
+                this._tweetRepository
+            );
+        }
     }
 
 }

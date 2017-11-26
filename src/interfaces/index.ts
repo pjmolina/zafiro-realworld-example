@@ -5,6 +5,7 @@ export interface User {
 export interface Tweet {
     id: number;
     userId: number;
+    content: string;
 }
 
 export interface Role {
