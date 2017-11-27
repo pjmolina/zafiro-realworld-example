@@ -1,5 +1,6 @@
 import { createConnection, Connection } from "typeorm";
 import { injectable, inject } from "inversify";
+import chalk from "chalk";
 import { TYPE } from "../constants/types";
 import * as interfaces from "../interfaces";
 import { readdir } from "./fs_utils";
@@ -19,7 +20,11 @@ export class RepositoryFactory implements interfaces.RepositoryFactory {
             getPath
         );
         const repositories = entities.map((entity) => {
-            return connection.getRepository<T>(entity);
+            console.log(chalk.cyan(`Creating repository for entity: ${entity.name}`));
+            console.log(entity);
+            const repository = connection.getRepository<T>(entity);
+            console.log(chalk.green("Success!"));
+            return repository;
         });
         return repositories;
     }
@@ -29,23 +34,17 @@ export class RepositoryFactory implements interfaces.RepositoryFactory {
 @injectable()
 export class DbClient implements interfaces.DbClient {
 
-    @inject(TYPE.Logger) private readonly _logger: interfaces.Logger;
     private _cache: Connection | null = null;
 
     public async getConnection(
         directoryName: string,
         getPath: (dirOrFile: string[]) => string
     ) {
-        try {
-            if (this._cache !== null) {
-                return this._cache;
-            } else {
-                this._cache = await this._createConnection(directoryName, getPath);
-                return this._cache;
-            }
-        } catch (err) {
-            this._logger.error("Cannot connect to DB", err);
-            throw err;
+        if (this._cache !== null) {
+            return this._cache;
+        } else {
+            this._cache = await this._createConnection(directoryName, getPath);
+            return this._cache;
         }
     }
 
@@ -53,29 +52,32 @@ export class DbClient implements interfaces.DbClient {
         directoryName: string,
         getPath: (dirOrFile: string[]) => string
     ) {
+        try {
+            const dbHost = process.env.POSTGRES_HOST;
+            const dbPort = 5432;
+            const dbUser = process.env.POSTGRES_USER;
+            const dbPassword = process.env.POSTGRES_PASSWORD;
+            const dbName = process.env.POSTGRES_DB;
+            const connStr = `postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
+            const paths = await this._getEntityPaths(directoryName, getPath);
+            console.log(chalk.cyan(`Trying to connect to DB: ${connStr}`));
+            const connection = await createConnection({
+                type: "postgres",
+                host: dbHost,
+                port: dbPort,
+                username: dbUser,
+                password: dbPassword,
+                database: dbName,
+                entities: paths,
+                synchronize: true,
+            });
+            console.log(chalk.green("Success!"));
+            return connection;
 
-        const dbHost = process.env.POSTGRES_HOST;
-        const dbPort = 5432;
-        const dbUser = process.env.POSTGRES_USER;
-        const dbPassword = process.env.POSTGRES_PASSWORD;
-        const dbName = process.env.POSTGRES_DB;
-        const connStr = `postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
-        const paths = await this._getEntityPaths(directoryName, getPath);
-
-        this._logger.info(`Trying to connect to DB: ${connStr}`);
-        const connection = await createConnection({
-            type: "postgres",
-            host: dbHost,
-            port: dbPort,
-            username: dbUser,
-            password: dbPassword,
-            database: dbName,
-            entities: paths,
-            synchronize: true,
-        });
-
-        return connection;
-
+        } catch (err) {
+            console.log(chalk.red("Cannot connect to DB"));
+            throw err;
+        }
     }
 
     private async _getEntityPaths(
@@ -83,10 +85,7 @@ export class DbClient implements interfaces.DbClient {
         getPath: (dirOrFile: string[]) => string
     ) {
         const files = await readdir(directoryName, getPath);
-        const paths = files.map(fileName => {
-            return getPath([directoryName, fileName]);
-        });
-        return paths;
+        return files.map(fileName => getPath([directoryName, fileName]));
     }
 
 }

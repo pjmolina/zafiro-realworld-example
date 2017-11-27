@@ -13,7 +13,7 @@ export async function bindRepositories(
 
     const factory = container.get<interfaces.RepositoryFactory>(TYPE.RepositoryFactory);
     const entities = await readdirContents(directoryName, getPath);
-    const entityTypes = entities.map(e => Symbol.for(`Repository<${e.default.name}>`));
+    const entityTypes = entities.map(e => Symbol.for(`Repository<${e.name}>`));
 
     const repositories = await factory.getRepository<any>(
         entities,

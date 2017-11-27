@@ -2,7 +2,7 @@
 
 echo "Installing npm dependencies";
 npm install
-npm install -g ts-node typescript
+npm install -g typescript ts-node
 
 echo "Pulling POSTGRES docker image";
 docker pull postgres
@@ -31,5 +31,5 @@ docker run --name POSTGRES_USER -p 5432:5432  \
 echo "Waiting for POSTGRES container to start..."
 sleep 5s
 
-echo "Starting Node.js server";
+echo "Running the Node.js server";
 ts-node ./src/server.ts

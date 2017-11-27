@@ -43,7 +43,7 @@ export async function readdirContents(
                 );
             }
             console.log(chalk.green("Success!"));
-            return entity;
+            return entity.default;
         } catch (err) {
             console.log(chalk.red(`Cannot load ${entityPath}!`));
         }

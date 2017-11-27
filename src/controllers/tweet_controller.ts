@@ -11,7 +11,6 @@ export default class TweetController extends BaseHttpController {
 
     @httpGet("/")
     private async get() {
-        console.log(this._repository);
         return await this._repository.find();
     }
 
