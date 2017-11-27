@@ -31,10 +31,10 @@ export const bindings = new ContainerModule((bind) => {
 
     bind<interfaces.DbClient>(TYPE.DbClient)
         .to(DbClient)
-        .inRequestScope();
+        .inSingletonScope();
 
     bind<interfaces.RepositoryFactory>(TYPE.RepositoryFactory)
         .to(RepositoryFactory)
-        .inRequestScope();
+        .inSingletonScope();
 
 });

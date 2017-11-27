@@ -1,7 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import * as interfaces from "../interfaces";
 
-@Entity()
+@Entity({ schema: "demo" })
 export  default class User extends BaseEntity implements interfaces.User {
 
     @PrimaryGeneratedColumn()

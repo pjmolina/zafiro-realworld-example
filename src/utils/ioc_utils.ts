@@ -12,8 +12,7 @@ export async function createRepositories(
 ) {
     const factory = container.get<interfaces.RepositoryFactory>(TYPE.RepositoryFactory);
     const entities = await readdirContents(directoryName, getPath);
-
-    entities.forEach(async (entity) => {
+    return entities.map(async (entity) => {
         const repositoryType = Symbol.for(`Repository<${entity.default.name}>`);
         console.log(chalk.cyan(`Creating repository with TYPE ${repositoryType.toString()}`));
         const repository = await factory.getRepository<any>(
@@ -22,6 +21,8 @@ export async function createRepositories(
             getPath
         );
         container.bind<Repository<any>>(repositoryType).toConstantValue(repository);
+        console.log(chalk.green(`Successfully created repository with TYPE ${repositoryType.toString()}!`));
+        return repository;
     });
 
 }
