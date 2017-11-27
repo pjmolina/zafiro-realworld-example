@@ -5,7 +5,7 @@ import * as interfaces from "../interfaces";
 import { TYPE } from "../constants/types";
 import { readdirContents } from "./fs_utils";
 
-export async function createRepositories(
+export async function bindRepositories(
     container: inversifyInterfaces.Container,
     directoryName: string,
     getPath: (dirOrFile: string[]) => string
@@ -27,7 +27,7 @@ export async function createRepositories(
 
 }
 
-export async function loadControllers(
+export async function bindControllers(
     directoryName: string,
     getPath: (dirOrFile: string[]) => string
 ) {
