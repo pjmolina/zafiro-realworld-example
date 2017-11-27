@@ -1,8 +1,8 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import * as interfaces from "../interfaces";
 
 @Entity({ schema: "demo" })
-export default class Tweet extends BaseEntity implements interfaces.Tweet {
+export default class Tweet implements interfaces.Tweet {
 
     @PrimaryGeneratedColumn()
     id: number;

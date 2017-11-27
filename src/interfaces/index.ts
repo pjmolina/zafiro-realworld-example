@@ -40,8 +40,8 @@ export interface DbClient {
 
 export interface RepositoryFactory {
     getRepository<T>(
-        entity: { new (): T },
+        entity: Array<{ new (): T }>,
         directoryName: string,
         getPath: (dirOrFile: string[]) => string
-    ): Promise<Repository<T>>
+    ): Promise<Repository<T>[]>
 }

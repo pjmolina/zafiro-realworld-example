@@ -5,12 +5,12 @@ import * as interfaces from "../interfaces";
 import { readdir } from "./fs_utils";
 
 @injectable()
-export class RepositoryFactory {
+export class RepositoryFactory implements interfaces.RepositoryFactory {
 
     @inject(TYPE.DbClient) private readonly _dbClient: interfaces.DbClient;
 
     public async getRepository<T>(
-        entity: { new() : T },
+        entities: Array<{ new() : T }>,
         directoryName: string,
         getPath: (dirOrFile: string[]) => string
     ) {
@@ -18,8 +18,10 @@ export class RepositoryFactory {
             directoryName,
             getPath
         );
-        const repository = connection.getRepository<T>(entity);
-        return repository;
+        const repositories = entities.map((entity) => {
+            return connection.getRepository<T>(entity);
+        });
+        return repositories;
     }
 
 }
@@ -52,11 +54,11 @@ export class DbClient implements interfaces.DbClient {
         getPath: (dirOrFile: string[]) => string
     ) {
 
+        const dbHost = process.env.POSTGRES_HOST;
+        const dbPort = 5432;
         const dbUser = process.env.POSTGRES_USER;
         const dbPassword = process.env.POSTGRES_PASSWORD;
-        const dbHost = process.env.POSTGRES_HOST;
         const dbName = process.env.POSTGRES_DB;
-        const dbPort = 5432;
         const connStr = `postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
         const paths = await this._getEntityPaths(directoryName, getPath);
 
