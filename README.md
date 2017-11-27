@@ -14,3 +14,10 @@ cd inversify-realworld-example
 npm start
 ```
 
+You should see the following output in your terminal:
+
+![](./media/out.png)
+
+Yes, it is real!
+
+![](./media/magic.gif)
