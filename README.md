@@ -33,3 +33,15 @@ When you run the Node.js app the following things happen automatically:
 Yes, it is real!
 
 ![](./media/magic.gif)
+
+## What technologies are used in this example?
+
+- [x] [Node.js](https://github.com/nodejs/node) & [npm](https://github.com/npm/npm)
+- [x] [Express](https://github.com/expressjs/express)
+- [x] [PostgreSQL](https://github.com/postgres/postgres)
+- [x] [Docker](https://github.com/moby/moby)
+- [x] [TypeScript](https://github.com/microsoft/typescript)
+- [x] [TypeORM](https://github.com/typeorm/typeorm)
+- [x] [InversifyJS](https://github.com/inversify/InversifyJS) & [inversify-express-utils](https://github.com/inversify/inversify-express-utils)
+
+
