@@ -49,5 +49,4 @@ import { bindControllers, bindRepositories } from "./utils/ioc_utils";
         )
     );
 
-
 })();
