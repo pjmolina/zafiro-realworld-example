@@ -1,33 +1,13 @@
 import { ContainerModule } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
-import * as path from "path";
-import { loadControllers } from "../utils/ioc_utils";
 import { TYPE, MIDDLEWARE } from "../constants/types";
 import * as interfaces from "../interfaces";
-import { AccountRepository } from "../repositories/account_repository";
-import { TweetRepository } from "../repositories/tweet_repository";
 import { RoleAdminMiddleware, AuthorizeMiddleware } from "../middleware/authorize_middleware";
 import { LoggerMiddleware } from "../middleware/logger_middleware";
 import { Logger } from "../utils/logger";
+import { DbClient, RepositoryFactory } from "../utils/db_utils";
 
 export const bindings = new ContainerModule((bind) => {
-
-    // Create bindings for controllers
-
-    loadControllers(
-        "controllers",
-        (dirOrFile: string[]) => path.join(__dirname, "..", ...dirOrFile)
-    );
-
-    // Create bindings for repositories
-
-    bind<interfaces.AccountRepository>(TYPE.AccountRepository)
-        .to(AccountRepository)
-        .inRequestScope();
-
-    bind<interfaces.TweetRepository>(TYPE.TweetRepository)
-        .to(TweetRepository)
-        .inRequestScope();
 
     // Create bindings for middleware
 
@@ -47,6 +27,14 @@ export const bindings = new ContainerModule((bind) => {
 
     bind<interfaces.Logger>(TYPE.Logger)
         .to(Logger)
+        .inRequestScope();
+
+    bind<interfaces.DbClient>(TYPE.DbClient)
+        .to(DbClient)
+        .inRequestScope();
+
+    bind<interfaces.RepositoryFactory>(TYPE.RepositoryFactory)
+        .to(RepositoryFactory)
         .inRequestScope();
 
 });

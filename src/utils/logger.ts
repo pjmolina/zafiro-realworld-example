@@ -10,6 +10,9 @@ export class Logger implements interfaces.Logger {
     public constructor() {
         this._pino = pino;
     }
+    public success(msg: string, ...args: any[]) {
+        this._pino.success(msg, ...args)
+    }
     public info(msg: string, ...args: any[]) {
         this._pino.info(msg, ...args)
     }

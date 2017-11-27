@@ -1,21 +1,26 @@
 import { inject } from "inversify";
 import { controller, httpGet, httpPost, BaseHttpController } from "inversify-express-utils";
 import { MIDDLEWARE, TYPE } from "../constants/types";
-import { TweetRepository } from "../interfaces";
+import { Repository } from "typeorm";
+import { Tweet } from "../interfaces";
 
 @controller("/tweet", MIDDLEWARE.Logger)
-export class TweetController extends BaseHttpController {
+export default class TweetController extends BaseHttpController {
 
-    @inject(TYPE.TweetRepository) private readonly _repository: TweetRepository;
+    @inject(TYPE.TweetRepository) private readonly _repository: Repository<Tweet>;
 
     @httpGet("/")
     private async get() {
-        return await this._repository.read();
+        console.log(this._repository);
+        return await this._repository.find();
     }
 
     @httpPost("/", MIDDLEWARE.Authorize)
-    private async post() {
-        return await this._repository.read();
+    private async post(content: string) {
+        return await this._repository.create({
+            userId: this.httpContext.user.details.id,
+            content: content
+        });
     }
 
 }

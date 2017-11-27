@@ -1,5 +1,9 @@
+import { Connection, Repository } from "typeorm";
+
 export interface User {
+    id: number;
     email: string;
+    enabled: boolean;
 }
 
 export interface Tweet {
@@ -13,20 +17,10 @@ export interface Role {
     name: string;
 }
 
-export interface Repository<T> {
-    create(): Promise<T[]>;
-    read(filter?: Partial<T>): Promise<T[]>;
-    update(update: Partial<T>): Promise<number>;
-    delete(filter?: Partial<T>): Promise<number>;
-}
-
-export interface AccountRepository extends Repository<User> {
-    getRoles(email: string): Promise<Role[]>;
-}
-
-export interface TweetRepository extends Repository<Tweet> {
-    getUserTweetFeed(email: string): Promise<Tweet[]>;
-    getUserOwnTweets(email: string): Promise<Tweet[]>;
+export interface UserRole {
+    id: number;
+    userId: number;
+    roleId: number;
 }
 
 export interface Logger {
@@ -34,4 +28,20 @@ export interface Logger {
     error(msg: string, ...args: any[]): void;
     debug(msg: string, ...args: any[]): void;
     warn(msg: string, ...args: any[]): void;
+    success(msg: string, ...args: any[]): void;
+}
+
+export interface DbClient {
+    getConnection(
+        directoryName: string,
+        getPath: (dirOrFile: string[]) => string
+    ): Promise<Connection>;
+}
+
+export interface RepositoryFactory {
+    getRepository<T>(
+        entity: { new (): T },
+        directoryName: string,
+        getPath: (dirOrFile: string[]) => string
+    ): Promise<Repository<T>>
 }

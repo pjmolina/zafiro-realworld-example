@@ -1,23 +1,30 @@
 import * as express from "express";
 import { interfaces } from "inversify-express-utils";
 import { injectable, inject } from "inversify";
+import { Repository } from "typeorm";
 import { TYPE } from "../constants/types";
-import { AccountRepository, TweetRepository, Logger } from "../interfaces";
+import { Logger, User, Tweet, Role, UserRole } from "../interfaces";
 
 class Principal implements interfaces.Principal {
 
-    private readonly _accountRepository: AccountRepository;
-    private readonly _tweetRepository: TweetRepository;
+    private readonly _userRepository: Repository<User>;
+    private readonly _tweetRepository: Repository<Tweet>;
+    private readonly _roleRepository: Repository<Role>;
+    private readonly _userRoleRepository: Repository<UserRole>;
     public details: any;
 
     public constructor(
         details: any,
-        accountRepository: AccountRepository,
-        tweetRepository: TweetRepository
+        userRepository: Repository<User>,
+        tweetRepository: Repository<Tweet>,
+        roleRepository: Repository<Role>,
+        userRoleRepository: Repository<UserRole>
     ) {
         this.details = details;
-        this._accountRepository = accountRepository;
+        this._userRepository = userRepository;
         this._tweetRepository = tweetRepository;
+        this._roleRepository = roleRepository;
+        this._userRoleRepository = userRoleRepository;
     }
 
     // We check it the user is authenticated
@@ -34,12 +41,12 @@ class Principal implements interfaces.Principal {
     // there is only one kind of resource: Tweets
     public async isResourceOwner(resourceId: any) {
         if (this.isAuthenticated()) {
-            const tweets = await this._tweetRepository.read(
-                { id: resourceId }
-            );
             const userId = this.details.id;
-            const isResourceOwner = tweets.filter(t => t.userId === userId).length === 1;
-            if (isResourceOwner) {
+            const tweet = await this._tweetRepository.findOne({
+                userId: userId,
+                id: resourceId
+            });
+            if (tweet) {
                 return true;
             }
         }
@@ -47,14 +54,19 @@ class Principal implements interfaces.Principal {
     }
 
     // If user is authenticated we check if has a given role
-    public async isInRole(role: string): Promise<boolean> {
+    public async isInRole(roleName: string): Promise<boolean> {
         if (this.isAuthenticated()) {
-            const roles = await this._accountRepository.getRoles(
-                this.details.email
-            );
-            const hasRole = roles.filter(r => r.name === role).length === 1;
-            if (hasRole) {
-                return true;
+            const role = await this._roleRepository.findOne({
+                name: roleName
+            });
+            if (role) {
+                const userRole = this._userRoleRepository.findOne({
+                    userId: 1,
+                    roleId: role.id
+                });
+                if (userRole) {
+                    return true;
+                }
             }
         }
         return false;
@@ -65,8 +77,10 @@ class Principal implements interfaces.Principal {
 @injectable()
 export class AuthProvider implements interfaces.AuthProvider {
 
-    @inject(TYPE.AccountRepository) private readonly _accountRepository: AccountRepository;
-    @inject(TYPE.TweetRepository) private readonly _tweetRepository: TweetRepository;
+    @inject(TYPE.UserRepository) private readonly _userRepository: Repository<User>;
+    @inject(TYPE.UserRepository) private readonly _roleRepository: Repository<Role>;
+    @inject(TYPE.UserRoleRepository) private readonly _userRoleRepository: Repository<UserRole>;
+    @inject(TYPE.TweetRepository) private readonly _tweetRepository: Repository<Tweet>;
     @inject(TYPE.Logger) private readonly _logger: Logger;
 
     // Get the current Principal, if the user is
@@ -79,23 +93,26 @@ export class AuthProvider implements interfaces.AuthProvider {
         try {
             const token = req.headers["x-auth-token"]
             const email = `USE ${token} to get email`; // TODO 
-            const users = await this._accountRepository.read(
-                { email: email }
-            );
-            const userOrUndefined = users[0];
+            const userOrUndefined = await this._userRepository.findOne({
+                email: email
+            });
             this._logger.info("AuthProvider =>", userOrUndefined);
             const principal = new Principal(
                 userOrUndefined,
-                this._accountRepository,
-                this._tweetRepository
+                this._userRepository,
+                this._tweetRepository,
+                this._roleRepository,
+                this._userRoleRepository
             );
             return principal;
         } catch(e) {
             this._logger.error(e.message, e);
             return new Principal(
                 null,
-                this._accountRepository,
-                this._tweetRepository
+                this._userRepository,
+                this._tweetRepository,
+                this._roleRepository,
+                this._userRoleRepository
             );
         }
     }
