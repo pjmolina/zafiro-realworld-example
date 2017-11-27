@@ -21,7 +21,6 @@ export class RepositoryFactory implements interfaces.RepositoryFactory {
         );
         const repositories = entities.map((entity) => {
             console.log(chalk.cyan(`Creating repository for entity: ${entity.name}`));
-            console.log(entity);
             const repository = connection.getRepository<T>(entity);
             console.log(chalk.green("Success!"));
             return repository;
