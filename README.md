@@ -4,7 +4,7 @@ Exemplary real world app built with TypeScript and InversifyJS
 
 :warning: :construction: This example is under construction :construction: :warning:
 
-## How to run this example?
+## How can I run this example?
 
 ```sh
 git clone https://github.com/remojansen/inversify-realworld-example.git
