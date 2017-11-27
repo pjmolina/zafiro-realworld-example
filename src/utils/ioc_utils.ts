@@ -25,7 +25,7 @@ export async function bindRepositories(
         const repositoryType = entityTypes[i];
         console.log(chalk.cyan(`Creating repository binding with TYPE ${repositoryType.toString()}`));
         container.bind<Repository<any>>(repositoryType).toConstantValue(repository);
-        console.log(chalk.green(`Successfully created repository with TYPE ${repositoryType.toString()}!`));
+        console.log(chalk.green("Success!"));
     });
 
     return repositories;
