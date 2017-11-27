@@ -17,6 +17,9 @@
     "url": "https://github.com/remojansen/inversify-realworld-example/issues"
   },
   "homepage": "https://github.com/remojansen/inversify-realworld-example#readme",
+  "_moduleAliases": {
+    "@lib": "./lib/"
+  },
   "dependencies": {
     "body-parser": "1.18.2",
     "chalk": "2.3.0",
@@ -24,6 +27,7 @@
     "helmet": "3.9.0",
     "inversify": "4.5.2",
     "inversify-express-utils": "5.0.0",
+    "module-alias": "^2.0.3",
     "pg": "7.4.0",
     "pino": "4.10.2",
     "reflect-metadata": "0.1.10",

@@ -2,8 +2,8 @@ import * as express from "express";
 import { interfaces } from "inversify-express-utils";
 import { injectable, inject } from "inversify";
 import { Repository } from "typeorm";
-import { TYPE } from "../constants/types";
-import { Logger, User, Tweet, Role, UserRole } from "../interfaces";
+import { TYPE } from "../../constants/types";
+import { Logger, User, Tweet, Role, UserRole } from "../../interfaces";
 
 class Principal implements interfaces.Principal {
 

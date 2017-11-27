@@ -3,9 +3,9 @@ import { Repository } from "typeorm";
 import { interfaces as inversifyInterfaces } from "inversify";
 import * as interfaces from "../interfaces";
 import { TYPE } from "../constants/types";
-import { readdirContents } from "./fs_utils";
+import readdirContents from "../fs/readdir_contents";
 
-export async function bindRepositories(
+export default async function bindRepositories(
     container: inversifyInterfaces.Container,
     directoryName: string,
     getPath: (dirOrFile: string[]) => string
@@ -29,12 +29,4 @@ export async function bindRepositories(
     });
 
     return repositories;
-}
-
-export async function bindControllers(
-    directoryName: string,
-    getPath: (dirOrFile: string[]) => string
-) {
-    const controllers = await readdirContents(directoryName, getPath);
-    return controllers;
 }

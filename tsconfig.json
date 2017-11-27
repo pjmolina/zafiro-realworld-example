@@ -50,6 +50,12 @@
 
     /* Experimental Options */
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "paths": {
+        "@lib/*": [
+            "lib/*"
+        ]
+    }
   }
 }

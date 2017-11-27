@@ -1,6 +1,6 @@
 import * as Pino from "pino";
 import { injectable } from "inversify";
-import * as interfaces from "../interfaces";
+import * as interfaces from "../../interfaces";
 
 const pino = Pino();
 

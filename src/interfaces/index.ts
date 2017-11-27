@@ -1,5 +1,3 @@
-import { Connection, Repository } from "typeorm";
-
 export interface User {
     id: number;
     email: string;
@@ -29,19 +27,4 @@ export interface Logger {
     debug(msg: string, ...args: any[]): void;
     warn(msg: string, ...args: any[]): void;
     success(msg: string, ...args: any[]): void;
-}
-
-export interface DbClient {
-    getConnection(
-        directoryName: string,
-        getPath: (dirOrFile: string[]) => string
-    ): Promise<Connection>;
-}
-
-export interface RepositoryFactory {
-    getRepository<T>(
-        entity: Array<{ new (): T }>,
-        directoryName: string,
-        getPath: (dirOrFile: string[]) => string
-    ): Promise<Repository<T>[]>
 }

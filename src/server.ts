@@ -1,47 +1,20 @@
+import "module-alias/register";
 import "reflect-metadata";
-import { Container } from "inversify";
-import { InversifyExpressServer } from 'inversify-express-utils';
 import chalk from "chalk";
-import * as path from "path";
+import { createApp } from "@lib/index";
 import { bindings } from "./config/ioc_config";
 import { expressConfig } from "./config/express_config";
-import { AuthProvider } from "./config/auth_provider";
-import { bindControllers, bindRepositories } from "./utils/ioc_utils";
+import { AuthProvider } from "./infrastructure/auth/auth_provider";
 
 (async () => {
 
-    // Create and configure IoC container
-    const container = new Container();
+    const app = await createApp({
+        dir: ["..", "..", "src"],
+        containerModules: [bindings],
+        AuthProvider: AuthProvider,
+        expressConfig: expressConfig
+    });
 
-    // Create bindings
-    container.load(bindings);
-
-    // Create bindings for repositories
-    await bindRepositories(
-        container,
-        "entities",
-        (dirOrFile: string[]) => path.join(__dirname, ".", ...dirOrFile)
-    );
-
-    // Create bindings for controllers
-    await bindControllers(
-        "controllers",
-        (dirOrFile: string[]) => path.join(__dirname, ".", ...dirOrFile)
-    );
-
-    // Create and configure Express server
-    const server = new InversifyExpressServer(
-        container,
-        null,
-        null,
-        null,
-        AuthProvider
-    );
-
-    server.setConfig(expressConfig);
-
-    // Create and run Express app
-    const app = server.build();
     app.listen(
         3000,
         () => console.log(

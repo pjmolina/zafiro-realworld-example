@@ -1,10 +1,11 @@
 import * as express from "express";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
-import { unauthorized, forbidden } from "../utils/http_utils";
-import { TYPE } from "../constants/types";
-import { Logger } from "../interfaces";
+import { unauthorized, forbidden } from "../http/errors";
+import { TYPE } from "../../constants/types";
+import { Logger } from "../../interfaces";
 
+@injectable()
 export class AuthorizeMiddleware extends BaseMiddleware {
     @inject(TYPE.Logger) private readonly _logger: Logger;
     public handler(
@@ -22,6 +23,7 @@ export class AuthorizeMiddleware extends BaseMiddleware {
     }
 }
 
+@injectable()
 export class RoleAdminMiddleware extends BaseMiddleware {
     @inject(TYPE.Logger) private readonly _logger: Logger;
     public handler(

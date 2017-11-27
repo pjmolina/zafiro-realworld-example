@@ -2,10 +2,9 @@ import { ContainerModule } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 import { TYPE, MIDDLEWARE } from "../constants/types";
 import * as interfaces from "../interfaces";
-import { RoleAdminMiddleware, AuthorizeMiddleware } from "../middleware/authorize_middleware";
-import { LoggerMiddleware } from "../middleware/logger_middleware";
-import { Logger } from "../utils/logger";
-import { DbClient, RepositoryFactory } from "../utils/db_utils";
+import { Logger } from "../infrastructure/logging/logger";
+import { LoggerMiddleware } from "../infrastructure/logging/logger_middleware";
+import { RoleAdminMiddleware, AuthorizeMiddleware } from "../infrastructure/auth/authorize_middleware";
 
 export const bindings = new ContainerModule((bind) => {
 
@@ -28,13 +27,5 @@ export const bindings = new ContainerModule((bind) => {
     bind<interfaces.Logger>(TYPE.Logger)
         .to(Logger)
         .inRequestScope();
-
-    bind<interfaces.DbClient>(TYPE.DbClient)
-        .to(DbClient)
-        .inSingletonScope();
-
-    bind<interfaces.RepositoryFactory>(TYPE.RepositoryFactory)
-        .to(RepositoryFactory)
-        .inSingletonScope();
 
 });
