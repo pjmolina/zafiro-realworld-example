@@ -1,4 +1,3 @@
-import "module-alias/register";
 import "reflect-metadata";
 import chalk from "chalk";
 import { createApp } from "zafiro";
@@ -9,8 +8,8 @@ import { AuthProvider } from "./infrastructure/auth/auth_provider";
 (async () => {
 
     const app = await createApp({
-        "postgres",
-        dir: ["..", "..", "src"],
+        database: "postgres",
+        dir: ["..", "..", "..", "..","src"],
         containerModules: [bindings],
         AuthProvider: AuthProvider,
         expressConfig: expressConfig
