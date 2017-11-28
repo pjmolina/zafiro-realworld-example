@@ -24,9 +24,9 @@ docker rm $containerId
 
 echo "Starting docker container";
 docker run --name POSTGRES_USER -p "$DATABASE_PORT":"$DATABASE_PORT"  \
--e POSTGRES_PASSWORD="$POSTGRES_PASSWORD"  \
--e POSTGRES_USER="$POSTGRES_USER"  \
--e POSTGRES_DB="$POSTGRES_DB" \
+-e POSTGRES_PASSWORD="$DATABASE_PASSWORD"  \
+-e POSTGRES_USER="$DATABASE_USER"  \
+-e POSTGRES_DB="$DATABASE_DB" \
 -d postgres
 
 echo "Waiting for POSTGRES container to start..."
