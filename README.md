@@ -1,6 +1,6 @@
 # inversify-realworld-example
 
-Exemplary real world app built with TypeScript and InversifyJS
+Exemplary real world app built with Zafiro
 
 :warning: :construction: This example is under construction :construction: :warning:
 

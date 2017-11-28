@@ -8,10 +8,11 @@ echo "Pulling POSTGRES docker image";
 docker pull postgres
 
 echo "Creating POSTGRES env variables";
-export POSTGRES_USER=postgres \
-export POSTGRES_PASSWORD=secret \
-export POSTGRES_HOST=localhost \
-export POSTGRES_DB=demo
+export DATABASE_USER=postgres \
+export DATABASE_PASSWORD=secret \
+export DATABASE_HOST=localhost \
+export DATABASE_PORT=5432 \
+export DATABASE_DB=demo
 
 containerId=$(docker ps -a -q --filter ancestor=postgres)
 
@@ -22,7 +23,7 @@ echo "Remove previous POSTGRES docker containers";
 docker rm $containerId
 
 echo "Starting docker container";
-docker run --name POSTGRES_USER -p 5432:5432  \
+docker run --name POSTGRES_USER -p "$DATABASE_PORT":"$DATABASE_PORT"  \
 -e POSTGRES_PASSWORD="$POSTGRES_PASSWORD"  \
 -e POSTGRES_USER="$POSTGRES_USER"  \
 -e POSTGRES_DB="$POSTGRES_DB" \
