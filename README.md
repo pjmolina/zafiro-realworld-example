@@ -11,7 +11,7 @@
 
 Exemplary real world app built with :gem: Zafiro.
 
-[Zafiro](https://github.com/remojansen/zafiro) is a lightweight web framework for Node.js apps powered by [InversifyJS](https://github.com/inversify/InversifyJS), [TypeORM](https://github.com/typeorm/typeorm) and [Express](https://github.com/expressjs/express) :rocket:
+[Zafiro](https://github.com/remojansen/zafiro) is a strongly typed and lightweight web framework for Node.js apps powered by [TypeScript](), [InversifyJS](https://github.com/inversify/InversifyJS), [TypeORM](https://github.com/typeorm/typeorm) and [Express](https://github.com/expressjs/express) :rocket:
 
 :warning: :construction: This example is under construction :construction: :warning:
 
