@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 import * as interfaces from "../interfaces";
 
 @Entity({ schema: "demo" })
-export default class Tweet implements interfaces.Tweet {
+export default class Comment implements interfaces.Comment {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -12,5 +12,8 @@ export default class Tweet implements interfaces.Tweet {
 
     @Column()
     content: string;
+
+    @CreateDateColumn()
+    createdDate: Date;
 
 }

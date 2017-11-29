@@ -2,30 +2,22 @@ import { ContainerModule } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 import { TYPE, MIDDLEWARE } from "../constants/types";
 import * as interfaces from "../interfaces";
-import { Logger } from "../infrastructure/logging/logger";
-import { LoggerMiddleware } from "../infrastructure/logging/logger_middleware";
-import { RoleAdminMiddleware, AuthorizeMiddleware } from "../infrastructure/auth/authorize_middleware";
+import { IsAuthenticatedMiddleware, IsInRoleAdminMiddleware, Log } from "../middleware";
 
 export const bindings = new ContainerModule((bind) => {
 
     // Create bindings for middleware
 
-    bind<BaseMiddleware>(MIDDLEWARE.RoleAdmin)
-        .to(RoleAdminMiddleware)
+    bind<BaseMiddleware>(MIDDLEWARE.IsInRoleAdmin)
+        .to(IsInRoleAdminMiddleware)
         .inRequestScope();
 
-    bind<BaseMiddleware>(MIDDLEWARE.Authorize)
-        .to(AuthorizeMiddleware)
+    bind<BaseMiddleware>(MIDDLEWARE.IsAuthenticated)
+        .to(IsAuthenticatedMiddleware)
         .inRequestScope();
 
-    bind<BaseMiddleware>(MIDDLEWARE.Logger)
-        .to(LoggerMiddleware)
-        .inRequestScope();
-
-    // Create other bindings
-
-    bind<interfaces.Logger>(TYPE.Logger)
-        .to(Logger)
+    bind<BaseMiddleware>(MIDDLEWARE.Log)
+        .to(Log)
         .inRequestScope();
 
 });

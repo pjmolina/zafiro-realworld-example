@@ -4,8 +4,8 @@ import { TYPE, MIDDLEWARE } from "../constants/types";
 import { Repository } from "typeorm";
 import { User } from "../interfaces";
 
-@controller("/users", MIDDLEWARE.Log)
-export default class UserController extends BaseHttpController {
+@controller("/account", MIDDLEWARE.Log)
+export default class AccountController extends BaseHttpController {
 
     @inject(TYPE.UserRepository) private readonly _repository: Repository<User>;
 

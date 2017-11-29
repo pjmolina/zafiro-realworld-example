@@ -1,13 +1,24 @@
+import { interfaces } from "inversify-express-utils";
+
 export interface User {
     id: number;
     email: string;
-    enabled: boolean;
+    givenName: string;
+    familyName: string;
 }
 
-export interface Tweet {
+export interface Comment {
     id: number;
     userId: number;
     content: string;
+    createdDate: Date;
+}
+
+export interface Post {
+    id: number;
+    userId: number;
+    content: string;
+    createdDate: Date;
 }
 
 export interface Role {
@@ -19,12 +30,4 @@ export interface UserRole {
     id: number;
     userId: number;
     roleId: number;
-}
-
-export interface Logger {
-    info(msg: string, ...args: any[]): void;
-    error(msg: string, ...args: any[]): void;
-    debug(msg: string, ...args: any[]): void;
-    warn(msg: string, ...args: any[]): void;
-    success(msg: string, ...args: any[]): void;
 }

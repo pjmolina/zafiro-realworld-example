@@ -1,12 +1,13 @@
 export const TYPE = {
-    Logger: Symbol.for("Logger"),
     UserRepository: Symbol.for("Repository<User>"),
-    TweetRepository: Symbol.for("Repository<Tweet>"),
-    UserRoleRepository: Symbol.for("Repository<Role>")
+    PostRepository: Symbol.for("Repository<Post>"),
+    CommentRepository: Symbol.for("Repository<Comment>"),
+    RoleRepository: Symbol.for("Repository<RoleRepository>"),
+    UserRoleRepository: Symbol.for("Repository<UserRole>")
 };
 
 export const MIDDLEWARE = {
-    RoleAdmin: Symbol.for("RoleAdmin"),
-    Authorize: Symbol.for("Authorize"),
-    Logger: Symbol.for("LoggerMiddleware")
+    IsInRoleAdmin: Symbol.for("IsInRoleAdmin"),
+    IsAuthenticated: Symbol.for("IsAuthenticated"),
+    Log: Symbol.for("Log")
 };

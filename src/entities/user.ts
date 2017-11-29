@@ -11,6 +11,12 @@ export default class User implements interfaces.User {
     email: string;
 
     @Column()
-    enabled: boolean;
+    givenName: string;
+
+    @Column()
+    familyName: string;
+
+    @Column()
+    isBanned: boolean;
 
 }

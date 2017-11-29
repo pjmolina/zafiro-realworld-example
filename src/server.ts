@@ -3,22 +3,27 @@ import chalk from "chalk";
 import { createApp } from "zafiro";
 import { bindings } from "./config/ioc_config";
 import { expressConfig } from "./config/express_config";
-import { AuthProvider } from "./infrastructure/auth/auth_provider";
+import CustomAccountRepository from "./repositories/account_repository";
 
 (async () => {
 
-    const app = await createApp({
-        database: "postgres",
-        containerModules: [bindings],
-        AuthProvider: AuthProvider,
-        expressConfig: expressConfig
-    });
+    try {
+        const app = await createApp({
+            database: "postgres",
+            containerModules: [bindings],
+            AccountRepository: CustomAccountRepository,
+            expressConfig: expressConfig
+        });
 
-    app.listen(
-        3000,
-        () => console.log(
-            chalk.green("Example app listening on port 3000!")
-        )
-    );
+        app.listen(
+            3000,
+            () => console.log(
+                chalk.green("Example app listening on port 3000!")
+            )
+        );
+
+    } catch (e) {
+        console.log(chalk.redBright(e.message));
+    }
 
 })();
