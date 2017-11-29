@@ -1,17 +1,28 @@
-# inversify-realworld-example
+# zafiro-realworld-example
 
-Exemplary real world app built with Zafiro
+[![Join the chat at https://gitter.im/inversify/InversifyJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/inversify/InversifyJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm version](https://badge.fury.io/js/zafiro.svg)](http://badge.fury.io/js/zafiro)
+[![Build Status](https://travis-ci.org/remojansen/zafiro-realworld-example.svg?branch=master)](https://travis-ci.org/remojansen/zafiro-realworld-example)
+[![Build status](https://ci.appveyor.com/api/projects/status/5kbh6wgi9rg7v6pr?svg=true)](https://ci.appveyor.com/project/remojansen/zafiro-realworld-example)
+[![Dependencies](https://david-dm.org/remojansen/zafiro-realworld-example.svg)](https://david-dm.org/remojansen/zafiro-realworld-example#info=dependencies)
+[![img](https://david-dm.org/remojansen/zafiro-realworld-example/dev-status.svg)](https://david-dm.org/remojansen/zafiro-realworld-example/#info=devDependencies)
+[![Known Vulnerabilities](https://snyk.io/test/github/remojansen/zafiro-realworld-example/badge.svg)](https://snyk.io/test/github/remojansen/zafiro-realworld-example)
+[![Twitter Follow](https://img.shields.io/twitter/follow/InversifyJS.svg?style=flat&maxAge=86400)](https://twitter.com/inversifyjs)
+
+Exemplary real world app built with :gem: Zafiro.
+
+[Zafiro](https://github.com/remojansen/zafiro) is a lightweight web framework for Node.js apps powered by [InversifyJS](https://github.com/inversify/InversifyJS), [TypeORM](https://github.com/typeorm/typeorm) and [Express](https://github.com/expressjs/express) :rocket:
 
 :warning: :construction: This example is under construction :construction: :warning:
 
 ## How can I run this example?
 
 ```sh
-git clone https://github.com/remojansen/inversify-realworld-example.git
+git clone https://github.com/remojansen/zafiro-realworld-example.git
 ```
 
 ```sh
-cd inversify-realworld-example
+cd zafiro-realworld-example
 ```
 
 ```sh
