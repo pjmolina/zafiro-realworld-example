@@ -4,7 +4,8 @@
   "description": "Exemplary real world app built with Zafiro",
   "main": "index.js",
   "scripts": {
-    "start": "sh ./bin/run.sh"
+    "start": "sh ./bin/run.sh",
+    "test": "echo 'TODO'"
   },
   "repository": {
     "type": "git",
