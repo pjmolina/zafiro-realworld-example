@@ -36,6 +36,7 @@ Yes, it is real!
 
 ## What technologies are used in this example?
 
+- [x] [Zafiro](https://github.com/remojansen/zafiro)
 - [x] [Node.js](https://github.com/nodejs/node) & [npm](https://github.com/npm/npm)
 - [x] [Express](https://github.com/expressjs/express)
 - [x] [PostgreSQL](https://github.com/postgres/postgres)
