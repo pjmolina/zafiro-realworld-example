@@ -1,7 +1,8 @@
+
 #!/bin/bash
 
 source ./bin/lib.sh
 
 install_dependencies
 run_db
-run_app
+run_tests

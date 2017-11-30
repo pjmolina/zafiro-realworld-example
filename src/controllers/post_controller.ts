@@ -4,8 +4,8 @@ import { MIDDLEWARE, TYPE } from "../constants/types";
 import { Repository } from "typeorm";
 import { Post } from "../interfaces";
 
-@controller("/posts")
-export default class PostRepository extends BaseHttpController {
+@controller("/api/v1/posts")
+export default class PostController extends BaseHttpController {
 
     @inject(TYPE.PostRepository) private readonly _repository: Repository<Post>;
 
