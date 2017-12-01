@@ -3,7 +3,6 @@ import { createApp } from "zafiro";
 import * as request from "supertest";
 import { Container } from "inversify";
 import { interfaces } from "inversify-express-utils";
-import { makeLoggerMiddleware } from 'inversify-logger-middleware';
 import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
 import { accountRepositoryMockFactory } from "./account_repository.mock";
@@ -21,26 +20,11 @@ describe("Post Controller", () => {
 
     it("Should not be able to create a Post if not authenticated", async () => {
 
-        const container = new Container();
-        const logger = makeLoggerMiddleware({
-            request: {
-                serviceIdentifier: true,
-                bindings: {
-                    scope: true,
-                    implementationType: true,
-                    type: true
-                }
-            },
-            time: true
-        });
-        // container.applyMiddleware(logger);
-
         const app = await createApp({
             database: "postgres",
             containerModules: [bindings],
             AccountRepository: MockAccountNotAuthenticatedRepository,
-            expressConfig: expressConfig,
-            container: container
+            expressConfig: expressConfig
         });
 
         type PostKeys = keyof Post;
