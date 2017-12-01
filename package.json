@@ -1,5 +1,5 @@
 {
-  "name": "inversify-realworld-example",
+  "name": "zafiro-realworld-example",
   "version": "1.0.0",
   "description": "Exemplary real world app built with Zafiro",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/remojansen/inversify-realworld-example.git"
+    "url": "git+https://github.com/remojansen/zafiro-realworld-example.git"
   },
   "keywords": [],
   "author": "Remo H. Jansen <remo.jansen@wolksoftware.com> (http://www.remojansen.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/remojansen/inversify-realworld-example/issues"
+    "url": "https://github.com/remojansen/zafiro-realworld-example/issues"
   },
-  "homepage": "https://github.com/remojansen/inversify-realworld-example#readme",
+  "homepage": "https://github.com/remojansen/zafiro-realworld-example#readme",
   "dependencies": {
     "body-parser": "1.18.2",
     "chai": "4.1.2",
