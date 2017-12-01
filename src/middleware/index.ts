@@ -14,7 +14,10 @@ const logMiddlewareCb = (logger: Logger) => (
     httpContext: expressInterfaces.HttpContext,
     next: express.NextFunction
 ) => {
-    logger.info(`HTTP ${httpContext.request.method} ${httpContext.request.url}`);
+    return (async () => {
+        logger.info(`HTTP ${httpContext.request.method} ${httpContext.request.url}`);
+        next();
+    })();
 };
 
 export const IsAuthenticatedMiddleware: { new(): BaseMiddleware } = makeMiddleware(isAuthenticatedMiddlewareCb);
