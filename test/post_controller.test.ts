@@ -1,35 +1,53 @@
 import { expect } from "chai";
 import * as request from "supertest";
-import chalk from "chalk";
+import { interfaces } from "inversify-express-utils";
 import { createApp } from "zafiro";
 import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
-import CustomAccountRepository from "../src/repositories/account_repository";
+import { accountRepositoryMockFactory } from "./account_repository.mock";
+import Post from "../src/entities/post";
+
+const MockAccountNotAuthenticatedRepository = accountRepositoryMockFactory({
+    details: null,
+    isAuthenticated: true,
+    isResourceOwner: false,
+    isInRole: true,
+});
 
 describe("Post Controller", () => {
 
-    it("Should be able to createa Post", async () => {
+    it("Should not be able to create a Post if not authenticated", async () => {
 
         const app = await createApp({
             database: "postgres",
             containerModules: [bindings],
-            AccountRepository: CustomAccountRepository,
+            AccountRepository: MockAccountNotAuthenticatedRepository,
             expressConfig: expressConfig
         });
 
-        request(app)
-            .get("/api/v1/posts/")
-            .set("x-auth-token", "FAKE")
-            .expect("Content-Type", /json/)
-            .expect(200)
-            .expect((res: any) => {
+        const expectedPost = {
+            userId: 1,
+            title: "Test Title",
+            content: "Test Content",
+            createdDate: new Date()
+        };
 
-            })
+        request(app)
+            .post("/api/v1/posts/")
+            .send(expectedPost)
+            .expect(403)
+            .expect('Content-Type', /json/)
             .end(function(err, res) {
                 if (err) {
-                    throw err;
+                    done(err);
                 }
+                res.body.should.have.property('participant');
+                res.body.participant.should.have.property('nuid', '98ASDF988SDF89SDF89989SDF9898');
+                done();
             });
+
+        
+
     });
 
 });

@@ -4,7 +4,6 @@ function install_dependencies {
 
     echo "Installing npm dependencies";
     npm install
-    npm install -g typescript ts-node
 
     echo "Pulling POSTGRES docker image";
     docker pull postgres
@@ -50,5 +49,5 @@ function run_tests {
     nyc --clean --all --require ts-node/register \
         --require reflect-metadata/Reflect  \
         --extension .ts -- mocha --exit --timeout 5000  \
-        **/*.spec.ts
+        **/*.test.ts
 }
