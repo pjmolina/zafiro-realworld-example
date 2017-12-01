@@ -7,10 +7,10 @@ import { interfaces as expressInterfaces } from "inversify-express-utils";
 function _httRequest<TData>(
     app: express.Application,
     url: string,
-    data?: TData,
-    requestHeaders?: [string, string][],
-    expectedResponseCode?: number,
-    expectedResponseHeaders?: [string, string][]
+    data?: TData | null,
+    requestHeaders?: ([string, string][]) | null,
+    expectedResponseCode?: number | null,
+    expectedResponseHeaders?: ([string, string][]) | null
 ) {
     return new Promise<request.Response>((resolve, reject) => {
 
@@ -49,9 +49,9 @@ function _httRequest<TData>(
 export function httGet(
     app: express.Application,
     url: string,
-    requestHeaders?: [string, string][],
-    expectedResponseCode?: number,
-    expectedResponseHeaders?: [string, string][]
+    requestHeaders?: ([string, string][]) | null,
+    expectedResponseCode?: number | null,
+    expectedResponseHeaders?: ([string, string][]) | null
 ) {
     return _httRequest(
         app,
@@ -66,10 +66,10 @@ export function httGet(
 export function httPost<TData>(
     app: express.Application,
     url: string,
-    data?: TData,
-    requestHeaders?: [string, string][],
-    expectedResponseCode?: number,
-    expectedResponseHeaders?: [string, string][]
+    data: TData,
+    requestHeaders?: ([string, string][]) | null,
+    expectedResponseCode?: number | null,
+    expectedResponseHeaders?: ([string, string][]) | null
 ) {
     return _httRequest<TData>(
         app,

@@ -6,10 +6,11 @@ import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
 import { accountRepositoryMockFactory } from "./account_repository.mock";
 import Post from "../src/entities/post";
+import { httPost } from "./test_utils";
 
 const MockAccountNotAuthenticatedRepository = accountRepositoryMockFactory({
     details: null,
-    isAuthenticated: true,
+    isAuthenticated: false,
     isResourceOwner: false,
     isInRole: true,
 });
@@ -25,30 +26,33 @@ describe("Post Controller", () => {
             expressConfig: expressConfig
         });
 
-        const expectedPost = {
+        type PostKeys = keyof Post;
+        type NewPost = Pick<Post, "userId"|"title"|"content"|"createdDate">;
+
+        const expectedPost: NewPost = {
             userId: 1,
             title: "Test Title",
             content: "Test Content",
             createdDate: new Date()
         };
 
-        request(app)
-            .post("/api/v1/posts/")
-            .send(expectedPost)
-            .expect(403)
-            .expect('Content-Type', /json/)
-            .end(function(err, res) {
-                if (err) {
-                    done(err);
-                }
-                res.body.should.have.property('participant');
-                res.body.participant.should.have.property('nuid', '98ASDF988SDF89SDF89989SDF9898');
-                done();
-            });
+        const res = await httPost<NewPost>(
+            app,
+            "/api/v1/posts/",
+            expectedPost,
+            null,
+            403,
+            [['Content-Type', "json"]]
+        );
 
-        
+        res.body.should.have.property('participant');
+        res.body.participant.should.have.property('nuid', '98ASDF988SDF89SDF89989SDF9898');
 
     });
+
+    it("Should not be able to update a Post if not the author");
+    it("Should not be able to delete a Post if not the author");
+    it("Should be able to get Posts by topic");
 
 });
 
