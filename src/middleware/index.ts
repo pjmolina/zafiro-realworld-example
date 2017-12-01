@@ -1,6 +1,8 @@
 import * as express from "express";
-import { interfaces as expressInterfaces } from "inversify-express-utils";
-import { BaseMiddleware } from "inversify-express-utils";
+import {
+    interfaces as expressInterfaces,
+    BaseMiddleware
+} from "inversify-express-utils";
 import {
     makeMiddleware,
     isInRoleMiddlewareCb,
@@ -15,6 +17,6 @@ const logMiddlewareCb = (logger: Logger) => (
     logger.info(`HTTP ${httpContext.request.method} ${httpContext.request.url}`);
 };
 
-export const IsAuthenticatedMiddleware = makeMiddleware(isAuthenticatedMiddlewareCb);
-export const IsInRoleAdminMiddleware = makeMiddleware(isInRoleMiddlewareCb("admin"));
+export const IsAuthenticatedMiddleware: { new(): BaseMiddleware } = makeMiddleware(isAuthenticatedMiddlewareCb);
+export const IsInRoleAdminMiddleware: { new(): BaseMiddleware } = makeMiddleware(isInRoleMiddlewareCb("admin"));
 export const Log = makeMiddleware(logMiddlewareCb);

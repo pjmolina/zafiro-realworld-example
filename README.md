@@ -3,7 +3,6 @@
 [![Join the chat at https://gitter.im/inversify/InversifyJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/inversify/InversifyJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![npm version](https://badge.fury.io/js/zafiro.svg)](http://badge.fury.io/js/zafiro)
 [![Build Status](https://travis-ci.org/remojansen/zafiro-realworld-example.svg?branch=master)](https://travis-ci.org/remojansen/zafiro-realworld-example)
-[![Build status](https://ci.appveyor.com/api/projects/status/5kbh6wgi9rg7v6pr?svg=true)](https://ci.appveyor.com/project/remojansen/zafiro-realworld-example)
 [![Dependencies](https://david-dm.org/remojansen/zafiro-realworld-example.svg)](https://david-dm.org/remojansen/zafiro-realworld-example#info=dependencies)
 [![img](https://david-dm.org/remojansen/zafiro-realworld-example/dev-status.svg)](https://david-dm.org/remojansen/zafiro-realworld-example/#info=devDependencies)
 [![Known Vulnerabilities](https://snyk.io/test/github/remojansen/zafiro-realworld-example/badge.svg)](https://snyk.io/test/github/remojansen/zafiro-realworld-example)

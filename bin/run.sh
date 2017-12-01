@@ -2,6 +2,4 @@
 
 source ./bin/lib.sh
 
-install_dependencies
-run_db
 run_app

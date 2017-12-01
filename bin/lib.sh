@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "Creating POSTGRES env variables";
+export DATABASE_USER=postgres \
+export DATABASE_PASSWORD=secret \
+export DATABASE_HOST=localhost \
+export DATABASE_PORT=5432 \
+export DATABASE_DB=demo
+
 function install_dependencies {
 
     echo "Installing npm dependencies";
@@ -11,13 +18,6 @@ function install_dependencies {
 }
 
 function run_db {
-
-    echo "Creating POSTGRES env variables";
-    export DATABASE_USER=postgres \
-    export DATABASE_PASSWORD=secret \
-    export DATABASE_HOST=localhost \
-    export DATABASE_PORT=5432 \
-    export DATABASE_DB=demo
 
     containerId=$(docker ps -a -q --filter ancestor=postgres)
 

@@ -2,4 +2,5 @@
 
 source ./bin/lib.sh
 
-run_tests
+install_dependencies
+run_db
