@@ -11,14 +11,15 @@ export type NewUser = Pick<User, "email"|"givenName"|"familyName">;
 
 export interface Comment {
     id: number;
-    userId: number;
+    user: User;
+    post: Post;
     content: string;
     createdDate: Date;
 }
 
 export interface Post {
     id: number;
-    userId: number;
+    user: User;
     title: string;
     content: string;
     createdDate: Date;
@@ -33,6 +34,6 @@ export interface Role {
 
 export interface UserRole {
     id: number;
-    userId: number;
-    roleId: number;
+    user: User;
+    role: Role;
 }

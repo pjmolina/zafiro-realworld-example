@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import * as interfaces from "../interfaces";
 import User from "./user";
+import Role from "./role";
 
 @Entity({ schema: "demo" })
 export default class UserRole implements interfaces.UserRole {
@@ -9,9 +10,9 @@ export default class UserRole implements interfaces.UserRole {
     public id: number;
 
     @ManyToOne(type => User, user => user.id)
-    public userId: number;
+    public user: User;
 
-    @ManyToOne(type => User, user => user.id)
-    public roleId: number;
+    @ManyToOne(type => Role, role => role.id)
+    public role: Role;
 
 }

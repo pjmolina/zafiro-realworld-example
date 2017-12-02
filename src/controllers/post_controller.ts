@@ -24,12 +24,12 @@ export default class PostController extends BaseHttpController {
     @httpPost("/", MIDDLEWARE.IsAuthenticated)
     private async post() {
         const newPost = this.httpContext.request.body;
-        const post = {
+        const post: Post = {
             ...newPost,
-            ...{ userId: this.httpContext.user.details.id }
+            ...{ user: this.httpContext.user.details.id }
         };
-        console.log("##########>", post);
-        return await this._repository.create(post);
+        const result = await this._repository.save(post);
+        return result;
     }
 
 }

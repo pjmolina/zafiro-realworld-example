@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from "typeorm";
 import * as interfaces from "../interfaces";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    ManyToOne,
+    JoinColumn
+} from "typeorm";
 import User from "./user";
 import Post from "./post";
 
@@ -10,10 +17,12 @@ export default class Comment implements interfaces.Comment {
     public id: number;
 
     @ManyToOne(type => User, user => user.id)
-    public userId: number;
+    @JoinColumn()
+    public user: User;
 
-    @ManyToOne(type => User, user => user.id)
-    public postId: number;
+    @ManyToOne(type => Post, post => post.id)
+    @JoinColumn()
+    public post: Post;
 
     @Column()
     public content: string;
