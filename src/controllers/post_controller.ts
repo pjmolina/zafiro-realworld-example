@@ -1,3 +1,4 @@
+import * as express from "express";
 import { inject } from "inversify";
 import {
     controller,
@@ -21,12 +22,13 @@ export default class PostController extends BaseHttpController {
     }
 
     @httpPost("/", MIDDLEWARE.IsAuthenticated)
-    private async post(@requestBody() newPost: NewPost) {
-        console.log("--------->", newPost);
+    private async post() {
+        const newPost = this.httpContext.request.body;
         const post = {
             ...newPost,
             ...{ userId: this.httpContext.user.details.id }
         };
+        console.log("##########>", post);
         return await this._repository.create(post);
     }
 

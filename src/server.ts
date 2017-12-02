@@ -8,14 +8,14 @@ import CustomAccountRepository from "./repositories/account_repository";
 (async () => {
 
     try {
-        const app = await createApp({
+        const result = await createApp({
             database: "postgres",
             containerModules: [bindings],
             AccountRepository: CustomAccountRepository,
             expressConfig: expressConfig
         });
 
-        app.listen(
+        result.app.listen(
             3000,
             () => console.log(
                 chalk.green("Example app listening on port 3000!")

@@ -24,7 +24,7 @@ export interface Post {
     createdDate: Date;
 }
 
-export type NewPost = Pick<Post, "title"|"content"|"createdDate">;
+export type NewPost = Pick<Post, "title"|"content">;
 
 export interface Role {
     id: number;

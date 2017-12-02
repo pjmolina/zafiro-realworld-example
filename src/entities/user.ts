@@ -5,18 +5,18 @@ import * as interfaces from "../interfaces";
 export default class User implements interfaces.User {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column()
-    email: string;
+    public email: string;
 
     @Column()
-    givenName: string;
+    public givenName: string;
 
     @Column()
-    familyName: string;
+    public familyName: string;
 
     @Column()
-    isBanned: boolean;
+    public isBanned: boolean;
 
 }

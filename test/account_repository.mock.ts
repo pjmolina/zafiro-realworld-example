@@ -14,21 +14,23 @@ interface AccountRepositoryMockFactoryOptions {
 }
 
 export function accountRepositoryMockFactory(options: AccountRepositoryMockFactoryOptions) {
+
+    const mockPrincipal: interfaces.Principal = {
+        details: options.details,
+        isAuthenticated() {
+            return Promise.resolve(options.isAuthenticated);
+        },
+        isResourceOwner(resourceId: any) {
+            return Promise.resolve(options.isResourceOwner);
+        },
+        isInRole(role: string) {
+            return Promise.resolve(options.isInRole);
+        }
+    };
+
     @injectable()
     class MockAccountRepository implements AccountRepository {
         public getPrincipal(token: string): Promise<interfaces.Principal> {
-            const mockPrincipal: interfaces.Principal = {
-                details: options.details,
-                isAuthenticated() {
-                    return Promise.resolve(options.isAuthenticated);
-                },
-                isResourceOwner(resourceId: any) {
-                    return Promise.resolve(options.isResourceOwner);
-                },
-                isInRole(role: string) {
-                    return Promise.resolve(options.isResourceOwner);
-                }
-            };
             return Promise.resolve<interfaces.Principal>(mockPrincipal);
         }
         public isResourceOwner(userDetails: any, resourceId: any): Promise<boolean> {

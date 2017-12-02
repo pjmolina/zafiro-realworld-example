@@ -6,12 +6,12 @@ import User from "./user";
 export default class UserRole implements interfaces.UserRole {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @ManyToOne(type => User, user => user.id)
-    userId: number;
+    public userId: number;
 
     @ManyToOne(type => User, user => user.id)
-    roleId: number;
+    public roleId: number;
 
 }

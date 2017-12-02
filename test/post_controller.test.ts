@@ -33,8 +33,7 @@ describe("Post Controller", () => {
 
                 const expectedPost: interfaces.NewPost = {
                     title: "Test Title",
-                    content: "Test Content",
-                    createdDate: new Date()
+                    content: "Test Content"
                 };
 
                 const res = await httPost<interfaces.NewPost>(
@@ -63,7 +62,7 @@ describe("Post Controller", () => {
 
             try {
 
-                const MockAccountNotAuthenticatedRepository = accountRepositoryMockFactory({
+                const MockAccountIsAuthenticatedRepository = accountRepositoryMockFactory({
                     details: {
                         id: 1
                     },
@@ -75,15 +74,23 @@ describe("Post Controller", () => {
                 const result = await createApp({
                     database: "postgres",
                     containerModules: [bindings],
-                    AccountRepository: MockAccountNotAuthenticatedRepository,
+                    AccountRepository: MockAccountIsAuthenticatedRepository,
                     expressConfig: expressConfig
                 });
 
                 const expectedPost: interfaces.NewPost = {
                     title: "Test Title",
-                    content: "Test Content",
-                    createdDate: new Date()
+                    content: "Test Content"
                 };
+
+                const res = await httPost<interfaces.NewPost>(
+                    result.app,
+                    "/api/v1/posts/",
+                    expectedPost,
+                    [["x-auth-token", "fake_credentials"]],
+                    500,
+                    [["Content-Type", "text/html; charset=utf-8"]]
+                );
 
             } finally {
                 if (getManager().connection.isConnected) {

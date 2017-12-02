@@ -7,18 +7,18 @@ import Post from "./post";
 export default class Comment implements interfaces.Comment {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @ManyToOne(type => User, user => user.id)
-    userId: number;
+    public userId: number;
 
     @ManyToOne(type => User, user => user.id)
-    postId: number;
+    public postId: number;
 
     @Column()
-    content: string;
+    public content: string;
 
     @CreateDateColumn()
-    createdDate: Date;
+    public createdDate: Date;
 
 }

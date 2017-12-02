@@ -31,7 +31,7 @@
     "pino": "4.10.2",
     "reflect-metadata": "0.1.10",
     "typeorm": "0.1.6",
-    "zafiro": "1.0.0-alpha.7"
+    "zafiro": "1.0.0-alpha.8"
   },
   "devDependencies": {
     "@types/chai": "4.0.6",

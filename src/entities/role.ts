@@ -5,9 +5,9 @@ import * as interfaces from "../interfaces";
 export default class Role implements interfaces.Role {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column()
-    name: string;
+    public name: string;
 
 }

@@ -1,3 +1,4 @@
+import "./env";
 import * as express from "express";
 import { expect } from "chai";
 import { createApp } from "zafiro";

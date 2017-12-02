@@ -6,18 +6,18 @@ import User from "./user";
 export default class Post implements interfaces.Post {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @ManyToOne(type => User, user => user.id)
-    userId: number;
+    public userId: number;
 
     @Column()
-    title: string;
+    public title: string;
 
     @Column()
-    content: string;
+    public content: string;
 
     @CreateDateColumn()
-    createdDate: Date;
+    public createdDate: Date;
 
 }
