@@ -25,24 +25,24 @@ describe("Auth Provider", () => {
         (async () => {
 
             try {
-                
+
                 const result = await createApp({
                     database: "postgres",
                     containerModules: [bindings],
                     AccountRepository: MockAccountNotAuthenticatedRepository,
                     expressConfig: expressConfig
                 });
-        
+
                 type PostKeys = keyof Post;
                 type NewPost = Pick<Post, "userId"|"title"|"content"|"createdDate">;
-        
+
                 const expectedPost: NewPost = {
                     userId: 1,
                     title: "Test Title",
                     content: "Test Content",
                     createdDate: new Date()
                 };
-        
+
                 const res = await httPost<NewPost>(
                     result.app,
                     "/api/v1/posts/",
@@ -51,7 +51,7 @@ describe("Auth Provider", () => {
                     401,
                     [["Content-Type", "text/html; charset=utf-8"]]
                 );
-    
+
             } finally {
                 if (getManager().connection.isConnected) {
                     getManager().connection.close();

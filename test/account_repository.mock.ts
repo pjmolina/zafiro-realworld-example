@@ -28,8 +28,8 @@ export function accountRepositoryMockFactory(options: AccountRepositoryMockFacto
                 isInRole(role: string) {
                     return Promise.resolve(options.isResourceOwner);
                 }
-            }
-            return Promise.resolve<interfaces.Principal>(mockPrincipal)
+            };
+            return Promise.resolve<interfaces.Principal>(mockPrincipal);
         }
         public isResourceOwner(userDetails: any, resourceId: any): Promise<boolean> {
             throw new Error("Method not implemented.");

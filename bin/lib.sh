@@ -46,6 +46,7 @@ function run_app {
 
 function run_tests {
     echo "Running tests";
+    tslint -c tslint.json ./**/*.ts
     nyc --clean --all --require ts-node/register \
         --require reflect-metadata/Reflect  \
         --extension .ts -- mocha --exit --timeout 5000  \

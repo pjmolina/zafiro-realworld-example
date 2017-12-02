@@ -4,19 +4,11 @@ import { createApp } from "zafiro";
 import * as request from "supertest";
 import { Container } from "inversify";
 import { getManager } from "typeorm";
-import { interfaces } from "inversify-express-utils";
 import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
 import { accountRepositoryMockFactory } from "./account_repository.mock";
-import Post from "../src/entities/post";
 import { httPost } from "./test_utils";
-
-const MockAccountNotAuthenticatedRepository = accountRepositoryMockFactory({
-    details: null,
-    isAuthenticated: false,
-    isResourceOwner: false,
-    isInRole: true
-});
+import * as interfaces from "../src/interfaces";
 
 describe("Post Controller", () => {
 
@@ -24,25 +16,28 @@ describe("Post Controller", () => {
 
         (async () => {
             try {
-                
+
+                const MockAccountNotAuthenticatedRepository = accountRepositoryMockFactory({
+                    details: null,
+                    isAuthenticated: false,
+                    isResourceOwner: false,
+                    isInRole: true
+                });
+
                 const result = await createApp({
                     database: "postgres",
                     containerModules: [bindings],
                     AccountRepository: MockAccountNotAuthenticatedRepository,
                     expressConfig: expressConfig
                 });
-    
-                type PostKeys = keyof Post;
-                type NewPost = Pick<Post, "userId"|"title"|"content"|"createdDate">;
-    
-                const expectedPost: NewPost = {
-                    userId: 1,
+
+                const expectedPost: interfaces.NewPost = {
                     title: "Test Title",
                     content: "Test Content",
                     createdDate: new Date()
                 };
-    
-                const res = await httPost<NewPost>(
+
+                const res = await httPost<interfaces.NewPost>(
                     result.app,
                     "/api/v1/posts/",
                     expectedPost,
@@ -50,8 +45,46 @@ describe("Post Controller", () => {
                     401,
                     [["Content-Type", "text/html; charset=utf-8"]]
                 );
-    
-                
+
+            } finally {
+                if (getManager().connection.isConnected) {
+                    getManager().connection.close();
+                }
+                done();
+            }
+
+        })();
+
+    });
+
+    it("Should able to create a post if authenticated", (done) => {
+
+        (async () => {
+
+            try {
+
+                const MockAccountNotAuthenticatedRepository = accountRepositoryMockFactory({
+                    details: {
+                        id: 1
+                    },
+                    isAuthenticated: true,
+                    isResourceOwner: false,
+                    isInRole: true
+                });
+
+                const result = await createApp({
+                    database: "postgres",
+                    containerModules: [bindings],
+                    AccountRepository: MockAccountNotAuthenticatedRepository,
+                    expressConfig: expressConfig
+                });
+
+                const expectedPost: interfaces.NewPost = {
+                    title: "Test Title",
+                    content: "Test Content",
+                    createdDate: new Date()
+                };
+
             } finally {
                 if (getManager().connection.isConnected) {
                     getManager().connection.close();

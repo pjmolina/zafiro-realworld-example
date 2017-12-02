@@ -18,24 +18,24 @@ function _httRequest<TData>(
 
         if (requestHeaders) {
             requestHeaders.forEach(h => {
-                r = r.set(h[0], h[1])
+                r = r.set(h[0], h[1]);
             });
         }
 
         if (data) {
             r = r.send(data);
         }
-        
+
         if (expectedResponseCode) {
-            r = r.expect(expectedResponseCode)
+            r = r.expect(expectedResponseCode);
         }
 
         if (expectedResponseHeaders) {
             expectedResponseHeaders.forEach(h => {
-                r = r.expect(h[0], h[1])
+                r = r.expect(h[0], h[1]);
             });
         }
-        
+
         r.end(function(err, res) {
             if (err) {
                 reject(err);

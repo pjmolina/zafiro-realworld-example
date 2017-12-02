@@ -1,10 +1,16 @@
 import { inject } from "inversify";
-import { controller, httpGet, httpPost, BaseHttpController } from "inversify-express-utils";
+import {
+    controller,
+    httpGet,
+    httpPost,
+    requestBody,
+    BaseHttpController
+} from "inversify-express-utils";
 import { MIDDLEWARE, TYPE } from "../constants/types";
 import { Repository } from "typeorm";
-import { Post } from "../interfaces";
+import { Post, NewPost } from "../interfaces";
 
-@controller("/api/v1/posts")
+@controller("/api/v1/posts", MIDDLEWARE.Log)
 export default class PostController extends BaseHttpController {
 
     @inject(TYPE.PostRepository) private readonly _repository: Repository<Post>;
@@ -15,11 +21,13 @@ export default class PostController extends BaseHttpController {
     }
 
     @httpPost("/", MIDDLEWARE.IsAuthenticated)
-    private async post(content: string) {
-        return await this._repository.create({
-            userId: this.httpContext.user.details.id,
-            content: content
-        });
+    private async post(@requestBody() newPost: NewPost) {
+        console.log("--------->", newPost);
+        const post = {
+            ...newPost,
+            ...{ userId: this.httpContext.user.details.id }
+        };
+        return await this._repository.create(post);
     }
 
 }

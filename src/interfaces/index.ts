@@ -7,6 +7,8 @@ export interface User {
     familyName: string;
 }
 
+export type NewUser = Pick<User, "email"|"givenName"|"familyName">;
+
 export interface Comment {
     id: number;
     userId: number;
@@ -17,9 +19,12 @@ export interface Comment {
 export interface Post {
     id: number;
     userId: number;
+    title: string;
     content: string;
     createdDate: Date;
 }
+
+export type NewPost = Pick<Post, "title"|"content"|"createdDate">;
 
 export interface Role {
     id: number;
