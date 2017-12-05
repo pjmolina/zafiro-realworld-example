@@ -3,19 +3,18 @@ import { expect } from "chai";
 import { createApp } from "zafiro";
 import * as request from "supertest";
 import { Container } from "inversify";
-import { getManager } from "typeorm";
+import { getConnection } from "typeorm";
 import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
 import { accountRepositoryMockFactory } from "./account_repository.mock";
-import { httPost } from "./test_utils";
+import { httpPost } from "./test_utils";
 import * as interfaces from "../src/interfaces";
 
 describe("Post Controller", () => {
 
-    afterEach(() => {
-        if (getManager().connection.isConnected) {
-            getManager().connection.close();
-        }
+    afterEach(async () => {
+        const connection = getConnection();
+        connection.close();
     });
 
     it("Should not be able to create a Post if not authenticated", async () => {
@@ -39,12 +38,12 @@ describe("Post Controller", () => {
             content: "Test Content"
         };
 
-        const res = await httPost<interfaces.NewPost>(
+        const res = await httpPost<interfaces.NewPost>(
             result.app,
             "/api/v1/posts/",
             expectedPost,
-            null,
             401,
+            null,
             [["Content-Type", "text/html; charset=utf-8"]]
         );
 
@@ -75,14 +74,16 @@ describe("Post Controller", () => {
             content: "Test Content"
         };
 
-        const res = await httPost<interfaces.NewPost>(
+        const res = await httpPost<interfaces.NewPost>(
             result.app,
             "/api/v1/posts/",
             expectedPost,
-            [["x-auth-token", "fake_credentials"]],
             500,
+            [["x-auth-token", "fake_credentials"]],
             [["Content-Type", "text/html; charset=utf-8"]]
         );
+
+        expect(res.body).to.eql({});
 
     });
 

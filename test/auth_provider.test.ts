@@ -4,20 +4,19 @@ import { expect } from "chai";
 import { createApp } from "zafiro";
 import * as request from "supertest";
 import { Container } from "inversify";
-import { getManager } from "typeorm";
+import { getConnection } from "typeorm";
 import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
 import { accountRepositoryMockFactory } from "./account_repository.mock";
 import Post from "../src/entities/post";
-import { httPost } from "./test_utils";
+import { httpPost } from "./test_utils";
 import * as interfaces from "../src/interfaces";
 
 describe("Auth Provider", () => {
 
-    afterEach(() => {
-        if (getManager().connection.isConnected) {
-            getManager().connection.close();
-        }
+    afterEach(async () => {
+        const connection = getConnection();
+        connection.close();
     });
 
     it("Should return 401 Unauthorized if no token is provided", async () => {
@@ -41,12 +40,12 @@ describe("Auth Provider", () => {
             content: "Test Content"
         };
 
-        const res = await httPost<interfaces.NewPost>(
+        const res = await httpPost<interfaces.NewPost>(
             result.app,
             "/api/v1/posts/",
             expectedPost,
-            null,
             401,
+            null,
             [["Content-Type", "text/html; charset=utf-8"]]
         );
 

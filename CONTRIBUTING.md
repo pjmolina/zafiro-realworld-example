@@ -11,6 +11,7 @@ git clone https://github.com/YOUR_USERNAME/InversifyJS.git
 2 Setup
 
 ```sh
+npm install
 npm run setup
 ```
 
