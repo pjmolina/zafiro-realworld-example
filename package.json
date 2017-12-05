@@ -30,15 +30,15 @@
     "pg": "7.4.0",
     "pino": "4.10.2",
     "reflect-metadata": "0.1.10",
-    "typeorm": "0.1.6",
-    "zafiro": "1.0.0-alpha.8"
+    "typeorm": "0.1.7",
+    "zafiro": "1.0.0-alpha.11"
   },
   "devDependencies": {
-    "@types/chai": "4.0.6",
+    "@types/chai": "4.0.8",
     "@types/express": "4.0.39",
     "@types/helmet": "0.0.37",
     "@types/mocha": "2.2.44",
-    "@types/node": "8.0.53",
+    "@types/node": "8.0.54",
     "@types/pino": "4.7.0",
     "@types/supertest": "2.0.4",
     "chai": "4.1.2",
