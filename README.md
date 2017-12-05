@@ -1,5 +1,7 @@
 # zafiro-realworld-example
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ZafiroJS/zafiro-realworld-example.svg)](https://greenkeeper.io/)
+
 [![Join the chat at https://gitter.im/inversify/InversifyJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/inversify/InversifyJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![npm version](https://badge.fury.io/js/zafiro.svg)](http://badge.fury.io/js/zafiro)
 [![Build Status](https://travis-ci.org/remojansen/zafiro-realworld-example.svg?branch=master)](https://travis-ci.org/remojansen/zafiro-realworld-example)
