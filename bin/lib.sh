@@ -13,7 +13,7 @@ function install_dependencies {
     npm install
 
     echo "Pulling POSTGRES docker image";
-    docker pull postgres
+    docker pull postgres:9.5
 
 }
 

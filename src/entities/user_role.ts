@@ -3,7 +3,7 @@ import * as interfaces from "../interfaces";
 import User from "./user";
 import Role from "./role";
 
-@Entity({ schema: "demo" })
+@Entity()
 export default class UserRole implements interfaces.UserRole {
 
     @PrimaryGeneratedColumn()

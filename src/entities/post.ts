@@ -1,4 +1,3 @@
-import * as interfaces from "../interfaces";
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -7,9 +6,10 @@ import {
     ManyToOne,
     JoinColumn
 } from "typeorm";
+import * as interfaces from "../interfaces";
 import User from "./user";
 
-@Entity({ schema: "demo" })
+@Entity()
 export default class Post implements interfaces.Post {
 
     @PrimaryGeneratedColumn()
