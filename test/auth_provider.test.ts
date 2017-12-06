@@ -1,4 +1,3 @@
-import "./env";
 import * as express from "express";
 import { expect } from "chai";
 import { createApp } from "zafiro";
@@ -14,7 +13,7 @@ import * as interfaces from "../src/interfaces";
 
 describe("Auth Provider", () => {
 
-    afterEach(async () => {
+    afterEach(() => {
         const connection = getConnection();
         connection.close();
     });

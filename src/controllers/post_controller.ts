@@ -1,5 +1,6 @@
 import * as express from "express";
 import { inject } from "inversify";
+import { validate } from "zafiro-validators";
 import {
     controller,
     httpGet,
@@ -9,12 +10,13 @@ import {
 } from "inversify-express-utils";
 import { MIDDLEWARE, TYPE } from "../constants/types";
 import { Repository } from "typeorm";
-import { Post, NewPost } from "../interfaces";
+import * as interfaces from "../interfaces";
+import Post from "../entities/post";
 
 @controller("/api/v1/posts", MIDDLEWARE.Log)
 export default class PostController extends BaseHttpController {
 
-    @inject(TYPE.PostRepository) private readonly _repository: Repository<Post>;
+    @inject(TYPE.PostRepository) private readonly _repository: Repository<interfaces.Post>;
 
     @httpGet("/")
     private async get() {
@@ -22,14 +24,22 @@ export default class PostController extends BaseHttpController {
     }
 
     @httpPost("/", MIDDLEWARE.IsAuthenticated)
-    private async post() {
-        const newPost = this.httpContext.request.body;
-        const post: Post = {
+    private async post(
+        @requestBody() newPost: interfaces.NewPost
+    ) {
+        const user: number = this.httpContext.user.details.id;
+        const post = {
             ...newPost,
-            ...{ user: this.httpContext.user.details.id }
+            ...{ user: user }
         };
-        const result = await this._repository.save(post);
-        return result;
+        const result = validate(post, Post);
+        if (result.error) {
+            return this.httpContext.response.status(400)
+                .json({
+                    error: `Post ${result.error.message}`
+                });
+        }
+        return await this._repository.save(post);
     }
 
 }

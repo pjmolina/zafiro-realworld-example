@@ -11,10 +11,10 @@ export default class UserRole implements interfaces.UserRole {
 
     @ManyToOne(type => User, user => user.id)
     @JoinColumn()
-    public user: User;
+    public user: number;
 
     @ManyToOne(type => Role, role => role.id)
     @JoinColumn()
-    public role: Role;
+    public role: number;
 
 }

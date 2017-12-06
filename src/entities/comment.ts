@@ -18,11 +18,11 @@ export default class Comment implements interfaces.Comment {
 
     @ManyToOne(type => User, user => user.id)
     @JoinColumn()
-    public user: User;
+    public user: number;
 
     @ManyToOne(type => Post, post => post.id)
     @JoinColumn()
-    public post: Post;
+    public post: number;
 
     @Column()
     public content: string;

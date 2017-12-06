@@ -1,3 +1,4 @@
+import "./env";
 import * as express from "express";
 import * as request from "supertest";
 import { injectable } from "inversify";
