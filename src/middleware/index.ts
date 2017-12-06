@@ -20,6 +20,5 @@ const logMiddlewareCb = (logger: Logger) => (
     })();
 };
 
-export const IsAuthenticatedMiddleware: { new(): BaseMiddleware } = makeMiddleware(isAuthenticatedMiddlewareCb);
-export const IsInRoleAdminMiddleware: { new(): BaseMiddleware } = makeMiddleware(isInRoleMiddlewareCb("admin"));
+export const IsAdminMiddleware = makeMiddleware(isInRoleMiddlewareCb("admin"));
 export const Log = makeMiddleware(logMiddlewareCb);
