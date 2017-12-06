@@ -10,19 +10,32 @@
 
 Exemplary real world app built with :gem: Zafiro.
 
-[Zafiro](https://github.com/remojansen/zafiro) is a strongly typed and lightweight web framework for Node.js apps powered by [TypeScript](), [InversifyJS](https://github.com/inversify/InversifyJS), [TypeORM](https://github.com/typeorm/typeorm) and [Express](https://github.com/expressjs/express) :rocket:
+[Zafiro](https://github.com/remojansen/zafiro) is a strongly typed and lightweight web framework for Node.js apps powered by [TypeScript](https://github.com/Microsoft/TypeScript), [InversifyJS](https://github.com/inversify/InversifyJS), [TypeORM](https://github.com/typeorm/typeorm) and [Express](https://github.com/expressjs/express) :rocket:
 
 :warning: :construction: This example is under construction :construction: :warning:
 
-## How can I run this example?
+## Running this example
+
+1 Clone the repository
 
 ```sh
 git clone https://github.com/remojansen/zafiro-realworld-example.git
 ```
 
+2 Setup
+
 ```sh
-cd zafiro-realworld-example
+npm install
+npm run setup
 ```
+
+3 Run the tests
+
+```sh
+npm test
+```
+
+4 Run the app
 
 ```sh
 npm start
@@ -44,9 +57,10 @@ Yes, it is real!
 
 ![](./media/magic.gif)
 
-## What technologies are used in this example?
+## Technologies are used in this example
 
-- [x] [Zafiro](https://github.com/remojansen/zafiro)
+- [x] [Zafiro](https://github.com/ZafiroJS/zafiro)
+- [x] [zafiro-validators](https://github.com/ZafiroJS/zafiro-validators)
 - [x] [Node.js](https://github.com/nodejs/node) & [npm](https://github.com/npm/npm)
 - [x] [Express](https://github.com/expressjs/express)
 - [x] [PostgreSQL](https://github.com/postgres/postgres)
@@ -54,5 +68,3 @@ Yes, it is real!
 - [x] [TypeScript](https://github.com/microsoft/typescript)
 - [x] [TypeORM](https://github.com/typeorm/typeorm)
 - [x] [InversifyJS](https://github.com/inversify/InversifyJS) & [inversify-express-utils](https://github.com/inversify/inversify-express-utils)
-
-

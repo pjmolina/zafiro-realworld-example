@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "setup": "sh ./bin/setup.sh",
-    "start": "sh ./bin/run.sh",
-    "test": "sh ./bin/test.sh"
+    "start": "ts-node ./src/server.ts",
+    "test": "npm run lint & npm run nyc",
+    "lint": "tslint -c tslint.json ./**/*.ts",
+    "nyc": "nyc --clean --all --require ts-node/register --require reflect-metadata/Reflect --extension .ts -- mocha --timeout 5000 **/*.test.ts"
   },
   "repository": {
     "type": "git",

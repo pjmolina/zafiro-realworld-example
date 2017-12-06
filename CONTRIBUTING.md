@@ -5,7 +5,7 @@
 1 Clone your fork of the repository
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/InversifyJS.git
+git clone https://github.com/YOUR_USERNAME/zafiro-realworld-example.git
 ```
 
 2 Setup
@@ -37,4 +37,4 @@ npm start
 
 - Please create an issue before sending a PR if it is going to change the public interface or includes significant architecture changes
 
-- Feel free to ask for help from other members of the InversifyJS team via the chat / mailing list or github issues
+- Feel free to ask for help from other members of the team via the chat / mailing list or github issues
