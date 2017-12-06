@@ -55,15 +55,12 @@ export default class CustomAccountRepository implements AccountRepository {
                 name: roleName
             });
             if (role !== undefined) {
-                const user = await this._userRepository.findOne({ id: userDetails.id });
-                if (user !== undefined) {
-                    const userRole = this._userRoleRepository.findOne({
-                        user: user,
-                        role: role
-                    });
-                    if (userRole !== undefined) {
-                        return true;
-                    }
+                const userRole = this._userRoleRepository.findOne({
+                    user: userDetails.id,
+                    role: role.id
+                });
+                if (userRole !== undefined) {
+                    return true;
                 }
             }
         }
@@ -113,17 +110,12 @@ export default class CustomAccountRepository implements AccountRepository {
 
     private async _isPostOwner(userDetails: interfaces.User, postId: number): Promise<boolean> {
         if (isAuthenticated(userDetails)) {
-            const user = await this._userRepository.findOne({
-                id: userDetails.id
+            const postOrUndefined = await this._postRepository.findOne({
+                user: userDetails.id,
+                id: postId
             });
-            if (user !== undefined) {
-                const postOrUndefined = await this._postRepository.findOne({
-                    user: user,
-                    id: postId
-                });
-                if (postOrUndefined !== undefined) {
-                    return true;
-                }
+            if (postOrUndefined !== undefined) {
+                return true;
             }
         }
         return false;
@@ -131,17 +123,12 @@ export default class CustomAccountRepository implements AccountRepository {
 
     private async _isComentOwner(userDetails: interfaces.User, commentId: number): Promise<boolean> {
         if (isAuthenticated(userDetails)) {
-            const user = await this._userRepository.findOne({
-                id: userDetails.id
+            const commentOrUndefined = await this._commentRepository.findOne({
+                user: userDetails.id,
+                id: commentId
             });
-            if (user !== undefined) {
-                const commentOrUndefined = await this._commentRepository.findOne({
-                    user: user,
-                    id: commentId
-                });
-                if (commentOrUndefined !== undefined) {
-                    return true;
-                }
+            if (commentOrUndefined !== undefined) {
+                return true;
             }
         }
         return false;
