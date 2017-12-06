@@ -130,7 +130,7 @@ describe("Post Controller", () => {
         );
 
         expect(res.body.error).to.eql(
-            `Post child "title" fails because ["title" length must be less than or equal to 20 characters long]`
+            `Post child "title" fails because ["title" length must be less than or equal to 60 characters long]`
         );
 
     });
