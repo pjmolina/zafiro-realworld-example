@@ -7,17 +7,10 @@ export DATABASE_HOST=localhost \
 export DATABASE_PORT=5432 \
 export DATABASE_DB=demo
 
-function install_dependencies {
-
-    echo "Installing npm dependencies";
-    npm install
+function run_db {
 
     echo "Pulling POSTGRES docker image";
-    docker pull postgres
-
-}
-
-function run_db {
+    docker pull postgres:9.5
 
     containerId=$(docker ps -a -q --filter ancestor=postgres)
 
@@ -37,18 +30,4 @@ function run_db {
     echo "Waiting for POSTGRES container to start..."
     sleep 5s
 
-}
-
-function run_app {
-    echo "Running the Node.js server";
-    ts-node ./src/server.ts
-}
-
-function run_tests {
-    echo "Running tests";
-    tslint -c tslint.json ./**/*.ts
-    nyc --clean --all --require ts-node/register \
-        --require reflect-metadata/Reflect  \
-        --extension .ts -- mocha --timeout 5000  \
-        **/*.test.ts
 }

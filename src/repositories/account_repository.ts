@@ -54,12 +54,12 @@ export default class CustomAccountRepository implements AccountRepository {
             const role = await this._roleRepository.findOne({
                 name: roleName
             });
-            if (role) {
+            if (role !== undefined) {
                 const userRole = this._userRoleRepository.findOne({
-                    userId: userDetails.id,
-                    roleId: role.id
+                    user: userDetails.id,
+                    role: role.id
                 });
-                if (userRole) {
+                if (userRole !== undefined) {
                     return true;
                 }
             }
@@ -75,14 +75,14 @@ export default class CustomAccountRepository implements AccountRepository {
             });
             this._logger.info("AuthProvider =>", userOrUndefined);
             return principalFactory(userOrUndefined);
-        } catch(e) {
+        } catch (e) {
             this._logger.error(e.message, e);
             return principalFactory();
         }
     }
 
     private _verifyIdToken(token: string): Promise<GoogleUser> {
-        
+
         const auth = new GoogleAuth();
         const googleClientId = process.env.GOOGLE_CLIENT_ID as string;
         const googleAuthApiClient = new auth.OAuth2(googleClientId, "", "");
@@ -110,12 +110,11 @@ export default class CustomAccountRepository implements AccountRepository {
 
     private async _isPostOwner(userDetails: interfaces.User, postId: number): Promise<boolean> {
         if (isAuthenticated(userDetails)) {
-            const userId = userDetails.id;
             const postOrUndefined = await this._postRepository.findOne({
-                userId: userId,
+                user: userDetails.id,
                 id: postId
             });
-            if (postOrUndefined) {
+            if (postOrUndefined !== undefined) {
                 return true;
             }
         }
@@ -124,12 +123,11 @@ export default class CustomAccountRepository implements AccountRepository {
 
     private async _isComentOwner(userDetails: interfaces.User, commentId: number): Promise<boolean> {
         if (isAuthenticated(userDetails)) {
-            const userId = userDetails.id;
             const commentOrUndefined = await this._commentRepository.findOne({
-                userId: userId,
+                user: userDetails.id,
                 id: commentId
             });
-            if (commentOrUndefined) {
+            if (commentOrUndefined !== undefined) {
                 return true;
             }
         }

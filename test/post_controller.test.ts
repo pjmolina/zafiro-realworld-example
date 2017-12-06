@@ -3,19 +3,18 @@ import { expect } from "chai";
 import { createApp } from "zafiro";
 import * as request from "supertest";
 import { Container } from "inversify";
-import { getManager } from "typeorm";
+import { getConnection } from "typeorm";
 import { bindings } from "../src/config/ioc_config";
 import { expressConfig } from "../src/config/express_config";
 import { accountRepositoryMockFactory } from "./account_repository.mock";
-import { httPost } from "./test_utils";
+import { httpPost } from "./test_utils";
 import * as interfaces from "../src/interfaces";
 
 describe("Post Controller", () => {
 
     afterEach(() => {
-        if (getManager().connection.isConnected) {
-            getManager().connection.close();
-        }
+        const connection = getConnection();
+        connection.close();
     });
 
     it("Should not be able to create a Post if not authenticated", async () => {
@@ -39,12 +38,12 @@ describe("Post Controller", () => {
             content: "Test Content"
         };
 
-        const res = await httPost<interfaces.NewPost>(
+        const res = await httpPost<interfaces.NewPost>(
             result.app,
             "/api/v1/posts/",
             expectedPost,
-            null,
             401,
+            null,
             [["Content-Type", "text/html; charset=utf-8"]]
         );
 
@@ -54,9 +53,11 @@ describe("Post Controller", () => {
 
     it("Should able to create a post if authenticated", async () => {
 
+        const userId = 1;
+
         const MockAccountIsAuthenticatedRepository = accountRepositoryMockFactory({
             details: {
-                id: 1
+                id: userId
             },
             isAuthenticated: true,
             isResourceOwner: false,
@@ -75,13 +76,61 @@ describe("Post Controller", () => {
             content: "Test Content"
         };
 
-        const res = await httPost<interfaces.NewPost>(
+        const res = await httpPost<interfaces.NewPost>(
             result.app,
             "/api/v1/posts/",
             expectedPost,
+            200,
             [["x-auth-token", "fake_credentials"]],
-            500,
-            [["Content-Type", "text/html; charset=utf-8"]]
+            [["Content-Type", "application/json; charset=utf-8"]]
+        );
+
+        const postDate = Date.parse(res.body.createdDate);
+
+        expect(res.body.content).to.eql(expectedPost.content);
+        expect(res.body.title).to.eql(expectedPost.title);
+        expect(res.body.user).to.eql(userId);
+        expect(isNaN(postDate)).to.eql(false);
+        expect(isNaN(res.body.id)).to.eql(false);
+
+    });
+
+    it("Should return 400 if trying to save an invalid entity", async () => {
+
+        const userId = 1;
+
+        const MockAccountIsAuthenticatedRepository = accountRepositoryMockFactory({
+            details: {
+                id: userId
+            },
+            isAuthenticated: true,
+            isResourceOwner: false,
+            isInRole: true
+        });
+
+        const result = await createApp({
+            database: "postgres",
+            containerModules: [bindings],
+            AccountRepository: MockAccountIsAuthenticatedRepository,
+            expressConfig: expressConfig
+        });
+
+        const expectedPost: interfaces.NewPost = {
+            title: "A very very very very very very very very very very lonf title",
+            content: "Test Content"
+        };
+
+        const res = await httpPost<interfaces.NewPost>(
+            result.app,
+            "/api/v1/posts/",
+            expectedPost,
+            400,
+            [["x-auth-token", "fake_credentials"]],
+            [["Content-Type", "application/json; charset=utf-8"]]
+        );
+
+        expect(res.body.error).to.eql(
+            `Post child "title" fails because ["title" length must be less than or equal to 60 characters long]`
         );
 
     });
