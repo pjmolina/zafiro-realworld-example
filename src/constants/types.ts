@@ -7,7 +7,7 @@ export const TYPE = {
 };
 
 export const MIDDLEWARE = {
-    IsInRoleAdmin: Symbol.for("IsInRoleAdmin"),
+    IsAdmin: Symbol.for("IsAdmin"),
     IsAuthenticated: Symbol.for("IsAuthenticated"),
     Log: Symbol.for("Log")
 };
