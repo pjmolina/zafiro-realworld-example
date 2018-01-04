@@ -25,7 +25,7 @@ function run_db {
     -e POSTGRES_PASSWORD="$DATABASE_PASSWORD"  \
     -e POSTGRES_USER="$DATABASE_USER"  \
     -e POSTGRES_DB="$DATABASE_DB" \
-    -d postgres
+    -d postgres:9.5
 
     echo "Waiting for POSTGRES container to start..."
     sleep 5s
