@@ -21,6 +21,7 @@ import { createOpenApiSpec }  from "zafiro-openapi3";
         });
 
         await createOpenApiSpec(container, result.app, "/openapi.json"); // Use container to generate Open Api Spec
+        console.log(chalk.yellowBright("OpenAPI contract at /openapi.json"));
 
         result.app.listen(
             3000,
